@@ -1,0 +1,964 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,gwt," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GoldyMark" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="原文地址http://www.gwtproject.org/doc/latest/DevGuideUiBinderI18n.html
+
+翻译时间2013年9月10日至2013年9月14日
+
+译者注这篇文章是我边看边译的，方便自己的同时也方便他人。内容不完全直译，未必100%准确，只能翻译出大概意思，本人之前毫无翻译经验，如有错漏之处，敬请指教。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译：UiBinder with I18N">
+<meta property="og:url" content="https://goldymark.github.io/2013/09/14/翻译：uibinder-with-i18n/index.html">
+<meta property="og:site_name" content="GoldyMark">
+<meta property="og:description" content="原文地址http://www.gwtproject.org/doc/latest/DevGuideUiBinderI18n.html
+
+翻译时间2013年9月10日至2013年9月14日
+
+译者注这篇文章是我边看边译的，方便自己的同时也方便他人。内容不完全直译，未必100%准确，只能翻译出大概意思，本人之前毫无翻译经验，如有错漏之处，敬请指教。">
+<meta property="og:updated_time" content="2013-09-14T05:26:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="翻译：UiBinder with I18N">
+<meta name="twitter:description" content="原文地址http://www.gwtproject.org/doc/latest/DevGuideUiBinderI18n.html
+
+翻译时间2013年9月10日至2013年9月14日
+
+译者注这篇文章是我边看边译的，方便自己的同时也方便他人。内容不完全直译，未必100%准确，只能翻译出大概意思，本人之前毫无翻译经验，如有错漏之处，敬请指教。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6343935897028789000,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://goldymark.github.io/2013/09/14/翻译：uibinder-with-i18n/"/>
+
+  <title> 翻译：UiBinder with I18N | GoldyMark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GoldyMark</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人的一生/可以活出不止一生</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-program">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-coffee"></i> <br />
+            
+            Program
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music-drink">
+          <a href="/categories/music-drink" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            Music&Drink
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-yiyan">
+          <a href="/categories/一言" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            一言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                翻译：UiBinder with I18N
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-09-14T13:26:00+08:00" content="2013-09-14">
+              2013-09-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/" itemprop="url" rel="index">
+                    <span itemprop="name">program</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/09/14/翻译：uibinder-with-i18n/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/09/14/翻译：uibinder-with-i18n/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h2 id="原文地址"><a href="#原文地址" class="headerlink" title="原文地址"></a>原文地址</h2><p><a href="http://www.gwtproject.org/doc/latest/DevGuideUiBinderI18n.html" target="_blank" rel="external">http://www.gwtproject.org/doc/latest/DevGuideUiBinderI18n.html</a></p>
+</blockquote>
+<h2 id="翻译时间"><a href="#翻译时间" class="headerlink" title="翻译时间"></a>翻译时间</h2><p>2013年9月10日至2013年9月14日</p>
+<blockquote>
+<p>译者注<br>这篇文章是我边看边译的，方便自己的同时也方便他人。内容不完全直译，未必100%准确，只能翻译出大概意思，本人之前毫无翻译经验，如有错漏之处，敬请指教。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="译文"><a href="#译文" class="headerlink" title="译文"></a>译文</h2><p>本文主要探讨<code>UiBinder</code>模板的<code>I18N</code>功能，想了解更多<code>UiBinder</code>的功能，请浏览<a href="http://www.gwtproject.org/doc/latest/DevGuideUiBinder.html" target="_blank" rel="external">Declarative Layout with UiBinder</a>（译者注：该文章的中文版，<a href="http://gwt-note.psmonkey.org/official/buildUI/With-UiBinder" target="_blank" rel="external">click here</a>）</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li>背景；</li>
+<li>Bonjour, Tout Le Monde（Hello,world）！</li>
+<li>Message内的简易HTML标记</li>
+<li>隐藏（保护）部分消息</li>
+<li>Messages在运行期的值运算</li>
+<li>将Widgets植入message当中（只适用于HTMLPanel）</li>
+<li>翻译HTML属性</li>
+<li>具有多重含义的词组</li>
+</ol>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p><code>UiBinder</code>模板可以用于本地化标记，使用<code>&lt;ui:msg&gt;</code>和<code>&lt;ui:attribute&gt;</code>元素表示该模板的哪些部分应进行翻译，在构建应用程序时提供版本化本地化消息的properties文件。</p>
+<blockquote>
+<p>原文：then provide properties files with localized versions of the messages when building your app.</p>
+</blockquote>
+<p>前文中（<a href="http://gwt-note.psmonkey.org/official/buildUI/With-UiBinder" target="_blank" rel="external">click here</a>）通过一系列的典型应用例子部分介绍了如何本地化你的UI模板。<br>注意：你将看到UiBinder的本地化与<code>GWT</code>的<a href="http://www.gwtproject.org/doc/latest/DevGuideI18nMessages.html" target="_blank" rel="external">Messages</a>有很多相似之处，原因是：<code>UiBinder</code>的I18N功能是通过为每个模板生成一个隐藏的<a href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/i18n/client/Messages.html" target="_blank" rel="external">com.google.gwt.i18n.client.Messages</a>接口而实现的。除了复数形式（原文：plural forms），你能通过模板实现<a href="http://www.gwtproject.org/doc/latest/DevGuideI18nMessages.html" target="_blank" rel="external">Messages</a>所实现的。</p>
+<h3 id="Bonjour-Tout-Le-Monde（Hello-world）"><a href="#Bonjour-Tout-Le-Monde（Hello-world）" class="headerlink" title="Bonjour, Tout Le Monde（Hello,world）"></a>Bonjour, Tout Le Monde（Hello,world）</h3><p>这里将展示如何开启这个功能。</p>
+<p><strong>Original：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ui:UiBinder</span> <span class="attr">xmlns:ui</span>=<span class="string">'urn:ui:com.google.gwt.uibinder'</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>Hello, world.<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ui:UiBinder</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ui:UiBinder</span> <span class="attr">xmlns:ui</span>=<span class="string">'urn:ui:com.google.gwt.uibinder'</span></span></div><div class="line">    <span class="attr">ui:generateFormat</span>=<span class="string">'com.google.gwt.i18n.rebind.format.PropertiesFormat'</span></div><div class="line">    <span class="attr">ui:generateKeys</span>=<span class="string">"com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator"</span></div><div class="line">    <span class="attr">ui:generateLocales</span>=<span class="string">"default"</span>&gt;</div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">ui:msg</span> <span class="attr">description</span>=<span class="string">"Greeting"</span>&gt;</span>Hello, world.<span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ui:UiBinder</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在这里我们做了两件事。一、通过在根元素<code>&lt;ui:UiBinder&gt;</code>里面添加一些属性来配置<code>UiBinder</code>的I18N功能；二、单独标记需要实现本地化的文本。<br>先来看看<code>“Hello，World”</code>这个文本。我们将放进<code>&lt;ui:msg&gt;</code>的<code>“Hello，World”</code>标记为一条可翻译的文本，一个<code>Message.description</code>属性是用来描述该消息的用途。虽然只是个可选属性，但可能是翻译者在上下文中能看到的为数不多的信息，所以你应该习惯性地为消息添加描述，就像为代码添加注释一样。<br>现在我们有了需要翻译的东西，我们通过一些配置在<code>&lt;ui:UiBinder&gt;</code>里面的属性告诉<code>UiBinder</code>如何完成翻译工作。这些<code>ui:generate*</code>属性相当于<code>LocalizableResource</code>的<a href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/i18n/client/LocalizableResource.Generate.html" target="_blank" rel="external">@Generate</a>标注。详见如下：</p>
+<ul>
+<li><p><code>ui:generateFormat</code><br>使用java properties格式。</p>
+</li>
+<li><p><code>ui:generateKeys</code><br>使用消息内容的MD5哈希值作为键集合，因此消息翻译才能在模板内生效。（如果我们留意一下properties是如何被管理的，你会发现在多个模板使用同一个message只需要翻译一次）</p>
+</li>
+<li><p><code>ui:generateLocales</code><br>将生成的properties作为<code>default locale</code>的一部分。（关于<code>default locale</code>和<code>fallback properties</code>的更多内容，请浏览<a href="http://www.gwtproject.org/doc/latest/DevGuideI18nLocale.html" target="_blank" rel="external">Locales in GWT</a>）<br>编译应用程序时，给<code>gwt compiler</code>传递一个<code>-extras</code>参数，告诉编译器生成应用程序的附属文件。然后就会为每个模板生成一个包含所有message入口标记位置的properties文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Generated from my.app.HelloWorldMyBinderImplGenMessages</div><div class="line"># for locale default</div><div class="line"></div><div class="line"># Description: Greeting</div><div class="line">022A824F26735ED0582324BE34F3CAE1=Hello, world.</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>生成的文件名是根据你定义的UiBinder接口而定的，有点惨不忍睹。<br>举个例子：<br>模板名称：<code>com.example.app.client.Hello.Binder</code>；<br>module名称：<code>App</code>；<br>运行带有<code>-extra /tmp/gwt-extras</code>参数的<code>gwt compiler</code>；<br>然后你会发现文件的路径是这个样子：<code>/tmp/gwt-extras/com.example.app.App/com.example.app.client.HelloBinderImplGenMessages.properties</code></p>
+<p>就如包大人所说的：这，并不好笑嘛。希望在GWT以后的发行版本里面能有更简洁的解决方案。</p>
+<p>然后，你可以在<code>ui.xml</code>文件的同一目录下创建该文件的本地化版本。继续上面的例子，一个<code>Mexican Spanish</code>版本的本地化properties应命名为<code>HelloBinderImplGenMessages_es_MX.properties</code>（注意将<code>com.example...</code>前缀咔擦掉）。<br>你不一定需要使用<code>MD5 keys</code>。如果你想自定义键名，可以在<code>&lt;ui:msg&gt;</code>里面添加一个<code>key</code>属性并指定你想要设置的键名。另一方面，如果你坚持使用<code>MD5 keys</code>，你可以将应用程序所有的翻译集合成一个指定特定语言环境的文件，而不是让他们遍布你的代码。这个properties文件的文件名格式是：<code>LocalizableResource_&lt;locale&gt;.properties</code>，而且你必须把这个文件放在<code>com/google/gwt/i18n/client</code>包下面。（原理：i18n properties文件会沿着类继承树往上搜寻，而所有<code>Messages</code>接口都继承于<code>LocalizableResource</code>）</p>
+<blockquote>
+<p>译者注：这个功能看上去挺有趣，有兴趣的可以去了解以下。</p>
+</blockquote>
+<p>有些项目会使用脚本来维护这些统一的翻译文件。这里有个来自<code>puzzlebazar</code>项目的例子（<a href="http://code.google.com/p/puzzlebazar/wiki/UiBinderInternationalisation" target="_blank" rel="external">wiki entry</a>）。</p>
+<p>还有其他I18N属性可以配置在<code>&lt;ui:UiBinder&gt;</code>元素下，其实相当于<code>Localizable</code>的其他注解，但你很少会改变他们的默认值。</p>
+<ul>
+<li><p><code>ui:defaultLocale</code><br>See @DefaultLocale for details</p>
+</li>
+<li><p><code>ui:generateFilename</code><br>See @Generate(fileName = “…”) for details</p>
+</li>
+<li><p><code>ui:baseMessagesInterface</code><br>设置用于生成<code>Messages</code>的基类接口，值必须是全路径类名，且该类需继承于<code>Messages</code>接口。你可以添加任何注解，以便公司及项目范围内的设置可以在一个地方修改即可。如有必要，你也可以覆盖该接口其他属性的默认值。</p>
+</li>
+</ul>
+<h3 id="Message内的简易HTML标记"><a href="#Message内的简易HTML标记" class="headerlink" title="Message内的简易HTML标记"></a>Message内的简易HTML标记</h3><p><code>&lt;ui:msg&gt;</code>可以适当地使用HTML标记。</p>
+<p><strong>Original：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">We <span class="tag">&lt;<span class="name">b</span>&gt;</span>strongly<span class="tag">&lt;/<span class="name">b</span>&gt;</span> urge you to reconsider.</div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ui:msg</span>&gt;</span>We <span class="tag">&lt;<span class="name">b</span>&gt;</span>strongly<span class="tag">&lt;/<span class="name">b</span>&gt;</span> urge you to reconsider.<span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>UiBinder</code>中的<code>Messages</code>支持<code>HTML</code>，不只是文本。</p>
+<h3 id="隐藏（保护）部分消息"><a href="#隐藏（保护）部分消息" class="headerlink" title="隐藏（保护）部分消息"></a>隐藏（保护）部分消息</h3><blockquote>
+<p>译者注：这部分内容翻译起来有点难，可能看代码反而更容易理解。</p>
+</blockquote>
+<p>有时候你需要将message的某些部分隐藏起来，以防翻译者破坏你的应用程序。</p>
+<p><strong>Original：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Uh oh, don't want translator to mess up brand CSS or the trademark span --&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"brand"</span>&gt;</span>Colgate<span class="tag">&lt;/<span class="name">span</span>&gt;</span>, with MFP!<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"tm"</span>&gt;</span>TM<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ui:msg</span> <span class="attr">description</span>=<span class="string">"blurb"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"brand"</span> <span class="attr">ui:ph</span>=<span class="string">"brandedSpan"</span>&gt;</span>Colgate<span class="tag">&lt;/<span class="name">span</span>&gt;</span>,</div><div class="line">  with MFP!<span class="tag">&lt;<span class="name">ui:ph</span> <span class="attr">name</span>=<span class="string">"trademark"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"tm"</span>&gt;</span>TM<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">ui:ph</span>&gt;</span><span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">Generated：</div><div class="line"># Description: blurb</div><div class="line"># 0=arg0 (Example: <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">'brand'</span>&gt;</span>), 1=arg1 (Example: <span class="tag">&lt;/<span class="name">span</span>&gt;</span>), 2=arg2 (Example: <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">'tm'</span>&gt;</span>TM<span class="tag">&lt;/<span class="name">span</span>&gt;</span>)</div><div class="line">6E8B421C6A7C1FEAE23FAA9D43C90D5E=&#123;0&#125;Colgate&#123;1&#125;, with MFP\!&#123;2&#125;</div></pre></td></tr></table></figure></p>
+<p>在这里例子中有两个地方。首先，你可以在<code>&lt;ui:msg&gt;</code>里面的任何子元素添加<code>ui:ph</code>属性，表明这里应该创建占位符免受翻译。在<code>element</code>的开始和结束标记位置会创建两个占位符（在这个例子里，分别是<code>brandedSpanOpen</code>和<code>brandedSpanClose</code>）。<br>然后，我们同样看到一个名为<code>ui:ph</code>的子元素，可以将任何被保护的元素置于其包围之中（在这个例子里，就是<code>tradermark</code>占位符）。<br>所以，你既可以将被保护的元素置于<code>&lt;ui:ph&gt;</code>包围之下，就像<code>&lt;ui:ph&gt;don&#39;t translate&lt;/ui:ph&gt;</code>，也可以使用<code>ui:ph</code>属性隐藏元素的开始和结束标记（相对于翻译者而言），只保留元素的内容允许翻译，就像<code>&lt;span ui:ph&gt;attribute&lt;/span&gt;</code>。注意：你可以将<code>ui:ph</code>属性置于任何<code>DOM element</code>，而不只是<code>&lt;span&gt;</code>。</p>
+<blockquote>
+<p>译者注：其实上面这段话的意思就是：<code>ui:ph</code>既可以作为<code>element</code>的属性使用，也可以将<code>&lt;ui:ph&gt;</code>作为<code>element</code>封装需要被保护的元素。<br><strong>用法1：</strong><br><code>&lt;span class=&quot;brand&quot; ui:ph=&quot;brandedSpan&quot;&gt;Colgate&lt;/span&gt;</code></p>
+<p><strong>用法2：</strong><br><code>&lt;ui:ph name=&quot;trademark&quot;&gt;&lt;span class=&quot;tm&quot;&gt;TM&lt;/span&gt;&lt;/ui:ph&gt;</code></p>
+</blockquote>
+<h3 id="Messages在运行期的值运算"><a href="#Messages在运行期的值运算" class="headerlink" title="Messages在运行期的值运算"></a>Messages在运行期的值运算</h3><p>当你想在运行期间修改模板的某一部分，你通常会将<code>ui:field</code>放入一个<code>span</code>或者其他<code>element</code>并且置于其<code>HTML</code>当中。当你在<code>&lt;ui:msg&gt;</code>里面这样做，它会自动保护免受翻译。</p>
+<p><strong>Original：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Java code will make calls like getClosingDate().setInnerText(closingDate()) --&gt;</span></div><div class="line">(closed <span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">"closingDate"</span> /&gt;</span> through <span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">"reopeningDate"</span>/&gt;</span>)</div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ui:msg</span> <span class="attr">description</span>=<span class="string">'closed for business message'</span>&gt;</span></div><div class="line">  (closed <span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">'closingDate'</span> /&gt;</span> through <span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">'reopeningDate'</span>/&gt;</span>)</div><div class="line"><span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong><em>Generated：</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Description: closed for business message</div><div class="line"># 0=arg0 (Example: &lt;span id=&apos;&apos;&gt;), 1=arg1 (Example: &lt;/span&gt;), 2=arg2 (Example: &lt;span id=&apos;&apos;&gt;), 3=arg3 (Example: &lt;/span&gt;)</div><div class="line">E30D43242E1AD2AC2EFA1AEEEFDFCC33=(closed &#123;0&#125;&#123;1&#125; through &#123;2&#125;&#123;3&#125;)</div></pre></td></tr></table></figure></p>
+<p>这里有一个好消息和坏消息。好消息就是你不需要在标记有<code>ui:filed</code>属性的<code>span</code>里额外添加任何<code>ui:ph</code>属性或用<code>&lt;ui:ph&gt;</code>包围去保护开始和结束标记。坏消息就是无法限制翻译者在这些开始和结束标记之间添加任何东西。<code>Notice：{0}{1} and {2}{3}</code><br>如果这是个问题，你需要将<code>spans</code>放入<code>&lt;ui:ph&gt;</code>里面以被保护，就像这样：</p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ui:msg</span>&gt;</span></div><div class="line">  (closed <span class="tag">&lt;<span class="name">ui:ph</span> <span class="attr">name</span>=<span class="string">'closingDate'</span> <span class="attr">example</span>=<span class="string">"7/12/2008"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">"closingDate"</span>/&gt;</span><span class="tag">&lt;/<span class="name">ui:ph</span>&gt;</span></div><div class="line">  through <span class="tag">&lt;<span class="name">ui:ph</span> <span class="attr">name</span>=<span class="string">'reopeningDate'</span> <span class="attr">example</span>=<span class="string">"7/12/2008"</span>&gt;</span><span class="tag">&lt;<span class="name">span</span> <span class="attr">ui:field</span>=<span class="string">"reopeningDate"</span>/&gt;</span><span class="tag">&lt;/<span class="name">ui:ph</span>&gt;</span>)</div><div class="line"><span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Generated：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 0=arg0 (Example: 7/12/2008), 1=arg1 (Example: 7/12/2008)</div><div class="line">53B9CF65553DFAA091435791E5C731E7=(closed &#123;0&#125; through &#123;1&#125;)</div></pre></td></tr></table></figure></p>
+<p><code>example</code>属性是可选的，这个属性允许你提供翻译者更多关于占位符的值和用途用法的信息，方便翻译者。</p>
+<blockquote>
+<p>译者注：这一节同样看代码能更易理解，对比两段<code>tagged</code>和<code>generated</code>就很容易明白，大概意思就是说如果你需要在<code>&lt;ui:msg&gt;</code>里面使用<code>ui:field</code>的话，需要使用<code>&lt;ui:ph&gt;</code>包围封装带有<code>ui:field</code>属性的<code>element</code>。</p>
+</blockquote>
+<h3 id="将Widgets植入message当中（只适用于HTMLPanel）"><a href="#将Widgets植入message当中（只适用于HTMLPanel）" class="headerlink" title="将Widgets植入message当中（只适用于HTMLPanel）"></a>将Widgets植入message当中（只适用于<a href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/HTMLPanel.html" target="_blank" rel="external">HTMLPanel</a>）</h3><p>当使用<code>&lt;g:HTMLPanel&gt;</code>时，你可能会想将<code>widgets</code>植入<code>messages</code>当中。这个可以有！</p>
+<p><strong>Original：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">g:HTMLPanel</span>&gt;</span></div><div class="line">  Meeting starts at</div><div class="line">    <span class="tag">&lt;<span class="name">my:TimePicker</span> <span class="attr">ui:field</span>=<span class="string">"startPicker"</span>/&gt;</span></div><div class="line">  and ends at</div><div class="line">    <span class="tag">&lt;<span class="name">my:TimePicker</span> <span class="attr">ui:field</span>=<span class="string">"endPicker"</span>/&gt;</span>.</div><div class="line"><span class="tag">&lt;/<span class="name">g:HTMLPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">g:HTMLPanel</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ui:msg</span>&gt;</span>Meeting starts at</div><div class="line">    <span class="tag">&lt;<span class="name">my:TimePicker</span> <span class="attr">ui:field</span>=<span class="string">"startPicker"</span>/&gt;</span></div><div class="line">  and ends at</div><div class="line">    <span class="tag">&lt;<span class="name">my:TimePicker</span> <span class="attr">ui:field</span>=<span class="string">"endPicker"</span>/&gt;</span>.</div><div class="line">  <span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">g:HTMLPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Generated：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 0=arg0 (Example: &lt;span&gt;), 1=arg1 (Example: &lt;/span&gt;), 2=arg2 (Example: &lt;span&gt;), 3=arg3 (Example: &lt;/span&gt;)</div><div class="line">23CBEA252C9901BF84D757FAD4968289=Meeting starts at &#123;0&#125;&#123;1&#125; and ends at &#123;2&#125;&#123;3&#125;.</div></pre></td></tr></table></figure></p>
+<p>注意：<code>widgets</code>是没有<code>ui:ph</code>属性的，因为不需要。当一个<code>widget</code>出现在<code>message</code>中的时候，<code>widget</code>需要做什么是毫无歧义的。需要留意的是你只能在<code>HTMLPanel</code>里面做这种事情（widgets in messages），因为<code>HTMLPanel</code>是<code>GWT</code>里面唯一一个<code>widget</code>能混合html标记和子widget。</p>
+<p>更多：你可能注意到在生成的properties文件里每个<code>widget</code>拥有太多的占位符，这意味着翻译者可能会引入一些不需要的文本到在运行期被<code>widgets</code>取代的<code>spans</code>里面。出现这样的事情，除了浪费翻译者的时间，不会造成任何危害。<code>widgets</code>还在那里，而文本则会丢失——你的用户不会看到这些文本。</p>
+<p>当你把一个包含在message文本主体里的widget放入HTMLPanel，事情会变得更加有趣（widget implements <a href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/HasText.html" target="_blank" rel="external">HasText</a>, <a href="http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/client/ui/HasHTML.html" target="_blank" rel="external">HasHTML</a>）。</p>
+<p><strong>Original：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">g:HTMLPanel</span>&gt;</span></div><div class="line">  To do the thing, <span class="tag">&lt;<span class="name">g:Hyperlink</span> <span class="attr">targetHistoryToken</span>=<span class="string">"/doThe#thing"</span>&gt;</span>click here<span class="tag">&lt;/<span class="name">g:Hyperlink</span>&gt;</span></div><div class="line">  and massage vigorously.</div><div class="line"><span class="tag">&lt;/<span class="name">g:HTMLPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">g:HTMLPanel</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ui:msg</span>&gt;</span></div><div class="line">    To do the thing, <span class="tag">&lt;<span class="name">g:Hyperlink</span> <span class="attr">targetHistoryToken</span>=<span class="string">"/doThe#thing"</span>&gt;</span>click here<span class="tag">&lt;/<span class="name">g:Hyperlink</span>&gt;</span></div><div class="line">    and massage vigorously.</div><div class="line">  <span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">g:HTMLPanel</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Generated：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 0=arg0 (Example: &lt;span&gt;), 1=arg1 (Example: &lt;/span&gt;)</div><div class="line">8EFBF967A3FEFE78C41C8A298562A094=To do the thing, &#123;0&#125;click here&#123;1&#125; and massage vigorously.</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>译者注：但我觉得这种做法很恶心……</p>
+</blockquote>
+<h3 id="翻译HTML属性"><a href="#翻译HTML属性" class="headerlink" title="翻译HTML属性"></a>翻译HTML属性</h3><p><code>可以翻译的并不只是主体文本——属性同样也可以。比较常见的有</code>title<code>属性（</code>tool-tip<code>文本）和</code><img><code>的</code>alt`标记。</p>
+<p><strong>Original：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">th</span> <span class="attr">title</span>=<span class="string">"Gross recipts"</span>&gt;</span>Gross<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>Tagged：</strong><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">th</span> <span class="attr">title</span>=<span class="string">"Gross receipts"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ui:attribute</span> <span class="attr">ui:name</span>=<span class="string">'title'</span> <span class="attr">ui:description</span>=<span class="string">'Tooltip text for gross column'</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ui:msg</span> <span class="attr">description</span>=<span class="string">'name of gross column'</span>&gt;</span>Gross<span class="tag">&lt;/<span class="name">ui:msg</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">th</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="具有多重含义的词组"><a href="#具有多重含义的词组" class="headerlink" title="具有多重含义的词组"></a>具有多重含义的词组</h3><p>需要注意的是，<code>words</code>在不同的上下文中有时候会表达不同的意思。</p>
+<p><strong>Original：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Favorite Color:</div><div class="line">  &lt;ui:RadioButton name=&quot;color&quot;&gt;Red&lt;/ui:RadioButton&gt;</div><div class="line">  &lt;ui:RadioButton name=&quot;color&quot;&gt;Orange&lt;/ui:RadioButton&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Favorite Fruit:</div><div class="line">  &lt;ui:RadioButton name=&quot;fruit&quot;&gt;Apple&lt;/ui:RadioButton&gt;</div><div class="line">  &lt;ui:RadioButton name=&quot;fruit&quot;&gt;Orange&lt;/ui:RadioButton&gt;</div></pre></td></tr></table></figure>
+<p><strong>Tagged：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Favorite Color:</div><div class="line">  &lt;ui:RadioButton name=&quot;color&quot;&gt;&lt;ui:msg&gt;Red&lt;/ui:msg&gt;&lt;/ui:RadioButton&gt;</div><div class="line">  &lt;ui:RadioButton name=&quot;color&quot;&gt;&lt;ui:msg meaning=&quot;the color&quot;/&gt;Orange&lt;/ui:msg&gt;&lt;/ui:RadioButton&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Favorite Fruit:</div><div class="line">  &lt;ui:RadioButton name=&quot;fruit&quot;&gt;&lt;ui:msg&gt;Apple&lt;/ui:msg&gt;&lt;/ui:RadioButton&gt;</div><div class="line">  &lt;ui:RadioButton name=&quot;fruit&quot;&gt;&lt;ui:msg meaning=&quot;the fruit&quot;&gt;Orange&lt;ui:msg&gt;&lt;/ui:RadioButton&gt;</div></pre></td></tr></table></figure>
+<p><strong>Generated：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"># Meaning: the color</div><div class="line">4404BE8C34552617D633271BBC1FAB07=Orange</div><div class="line"></div><div class="line"># Meaning: the fruit</div><div class="line">7A6DCA1ACC86B4A7D7574CD6BDD4E0C1=Orange</div><div class="line"></div><div class="line">9F6290F4436E5A2351F12E03B6433C3C=Apple</div><div class="line"></div><div class="line">EE38E4D5DD68C4E440825018D549CB47=Red</div></pre></td></tr></table></figure></p>
+<p>The punchline here is that a translator may well be working with no more context than the attributes you set on an individual message. （译者注：这句不懂得翻译，但也不大影响对本节内容的理解）</p>
+<p>如果你将所有的翻译都放入一个大池当中使用，而它们之间仅仅通过MD5哈希值来区别区分的话，你在这里就不能提供“两种口味”的“Organge”了。</p>
+<p>所以，你可以通过使用<code>meaning</code>属性来解决这个问题。不同<code>description</code>的是，<code>meaning</code>属性是会影响生成的哈希值的。</p>
+<blockquote>
+<p>译者注：这一节大意就是说当一个properties里有同一个值的时候，需要增加一个<code>meaning</code>属性来区分彼此。</p>
+</blockquote>
+<h2 id="结尾语"><a href="#结尾语" class="headerlink" title="结尾语"></a>结尾语</h2><p>自己在做翻译的过程中也觉得翻译不好做，也不知道自己的理解和表达是否准确，希望对学习<code>uibinder</code>的人有一点点帮助吧。<br>这里附上一个有关<code>UiBinder</code>的PDF下载地址。<a href="http://203.208.46.147/url?sa=t&amp;rct=j&amp;q=gwt-ui-overhaul&amp;source=web&amp;cd=4&amp;ved=0CD0QFjAD&amp;url=%68%74%74%70%3a%2f%2f%64%6c%2e%67%6f%6f%67%6c%65%2e%63%6f%6d%2f%67%6f%6f%67%6c%65%69%6f%2f%32%30%31%30%2f%67%77%74%2d%75%69%2d%6f%76%65%72%68%61%75%6c%2e%70%64%66&amp;ei=XvMzUvmrJseriAe13oC4DQ&amp;usg=AFQjCNGT7DoLG0Snur8w615nTIdfNxt_fw&amp;bvm=bv.52164340,d.aGc&amp;cad=rjt" target="_blank" rel="external">gwt-ui-overhaul</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/gwt/" rel="tag">#gwt</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/10/egit的一个小错误/" rel="next" title="egit的一个小错误">
+                <i class="fa fa-chevron-left"></i> egit的一个小错误
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/09/18/如何在gwt实现点击button（或其他widget）打开文件选择对话框/" rel="prev" title="如何在GWT实现点击Button（或其他Widget）打开文件选择对话框">
+                如何在GWT实现点击Button（或其他Widget）打开文件选择对话框 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2013/09/14/翻译：uibinder-with-i18n/"
+     data-title="翻译：UiBinder with I18N"
+     data-content=""
+     data-url="https://goldymark.github.io/2013/09/14/翻译：uibinder-with-i18n/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2013/09/14/翻译：uibinder-with-i18n/"
+           data-title="翻译：UiBinder with I18N" data-url="https://goldymark.github.io/2013/09/14/翻译：uibinder-with-i18n/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GoldyMark" />
+          <p class="site-author-name" itemprop="name">GoldyMark</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/GoldyMark" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原文地址"><span class="nav-number">1.</span> <span class="nav-text">原文地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#翻译时间"><span class="nav-number">2.</span> <span class="nav-text">翻译时间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#译文"><span class="nav-number">3.</span> <span class="nav-text">译文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">4.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-number">4.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bonjour-Tout-Le-Monde（Hello-world）"><span class="nav-number">4.2.</span> <span class="nav-text">Bonjour, Tout Le Monde（Hello,world）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Message内的简易HTML标记"><span class="nav-number">4.3.</span> <span class="nav-text">Message内的简易HTML标记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐藏（保护）部分消息"><span class="nav-number">4.4.</span> <span class="nav-text">隐藏（保护）部分消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Messages在运行期的值运算"><span class="nav-number">4.5.</span> <span class="nav-text">Messages在运行期的值运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将Widgets植入message当中（只适用于HTMLPanel）"><span class="nav-number">4.6.</span> <span class="nav-text">将Widgets植入message当中（只适用于HTMLPanel）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#翻译HTML属性"><span class="nav-number">4.7.</span> <span class="nav-text">翻译HTML属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具有多重含义的词组"><span class="nav-number">4.8.</span> <span class="nav-text">具有多重含义的词组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结尾语"><span class="nav-number">5.</span> <span class="nav-text">结尾语</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GoldyMark</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"goldymark"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,vaadin," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GoldyMark" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="系统Windows XP SP3；
+浏览器Chrome 版本 24.0.1312.57 m
+IDEEclipse 4.2 Juno
+以前一直在用GWT，最近看到Vaadin，好像不错的样子，有意学习之（截至发布时最新版本为7.0.1）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vaadin学习笔记之记一次编译错误">
+<meta property="og:url" content="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/index.html">
+<meta property="og:site_name" content="GoldyMark">
+<meta property="og:description" content="系统Windows XP SP3；
+浏览器Chrome 版本 24.0.1312.57 m
+IDEEclipse 4.2 Juno
+以前一直在用GWT，最近看到Vaadin，好像不错的样子，有意学习之（截至发布时最新版本为7.0.1）。">
+<meta property="og:image" content="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/p1.jpg">
+<meta property="og:updated_time" content="2013-02-21T15:14:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vaadin学习笔记之记一次编译错误">
+<meta name="twitter:description" content="系统Windows XP SP3；
+浏览器Chrome 版本 24.0.1312.57 m
+IDEEclipse 4.2 Juno
+以前一直在用GWT，最近看到Vaadin，好像不错的样子，有意学习之（截至发布时最新版本为7.0.1）。">
+<meta name="twitter:image" content="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/p1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6343935897028789000,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/"/>
+
+  <title> Vaadin学习笔记之记一次编译错误 | GoldyMark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GoldyMark</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人的一生/可以活出不止一生</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-program">
+          <a href="/categories/program" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-coffee"></i> <br />
+            
+            Program
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music-drink">
+          <a href="/categories/music-drink" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            Music&Drink
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-yiyan">
+          <a href="/categories/一言" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            一言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Vaadin学习笔记之记一次编译错误
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-02-21T23:14:00+08:00" content="2013-02-21">
+              2013-02-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/" itemprop="url" rel="index">
+                    <span itemprop="name">program</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/02/21/vaadin学习笔记之记一次编译错误/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/02/21/vaadin学习笔记之记一次编译错误/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h3><p>Windows XP SP3；</p>
+<h3 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h3><p>Chrome 版本 24.0.1312.57 m</p>
+<h3 id="IDE"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><p>Eclipse 4.2 Juno</p>
+<p>以前一直在用<code>GWT</code>，最近看到<code>Vaadin</code>，好像不错的样子，有意学习之（截至发布时最新版本为<code>7.0.1</code>）。</p>
+<a id="more"></a>
+<p>按官网说明，用<code>Maven</code>生成一个新的<code>Vaadin7</code>项目后，直接在<code>Eclipse</code>里面<code>Run on Server</code>（用的是<code>Tomcat7</code>），结果弹窗如下：</p>
+<img src="/2013/02/21/vaadin学习笔记之记一次编译错误/p1.jpg" alt="p1.jpg" title="">
+<p>Google一番之后找到解决办法，原来运行Vaadin项目前要先编译一次，运行<code>mvn vaadin:compile</code>之后，再Refresh一下项目，然后运行，OK！</p>
+<p>这篇博文要说的就是在编译过程中出现的一个问题，估计也不会很多人会遇到，但我还是把它写下来吧。</p>
+<p>刚开始编译的时候，死活编译不过，看控制台输出的信息也看不出个倪端，控制台信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div></pre></td><td class="code"><pre><div class="line">SLF4J: Failed to load class &quot;org.slf4j.impl.StaticLoggerBinder&quot;.</div><div class="line">SLF4J: Defaulting to no-operation (NOP) logger implementation</div><div class="line">SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.</div><div class="line">[INFO] Scanning for projects...</div><div class="line">[WARNING]</div><div class="line">[WARNING] Some problems were encountered while building the effective model for cn.nh121:Test:war:1.0</div><div class="line">[WARNING] &apos;build.plugins.plugin.version&apos; for org.mortbay.jetty:jetty-maven-plugin is missing. @ line 133, column 12</div><div class="line">[WARNING] &apos;build.plugins.plugin.version&apos; for org.apache.maven.plugins:maven-compiler-plugin is missing. @ line 76, column 12</div><div class="line">[WARNING]</div><div class="line">[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.</div><div class="line">[WARNING]</div><div class="line">[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.</div><div class="line">[WARNING]</div><div class="line">[INFO]</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building Vaadin Web Application 1.0</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO]</div><div class="line">[INFO] &gt;&gt;&gt; vaadin-maven-plugin:7.0.1:compile (default-cli) @ Test &gt;&gt;&gt;</div><div class="line">[INFO]</div><div class="line">[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ Test ---</div><div class="line">[debug] execute contextualize</div><div class="line">[INFO] Using &apos;UTF-8&apos; encoding to copy filtered resources.</div><div class="line">[INFO] skip non existing resourceDirectory D:\development\workspace\Test\src\main\resources</div><div class="line">[INFO]</div><div class="line">[INFO] --- vaadin-maven-plugin:7.0.1:resources (default) @ Test ---</div><div class="line">[INFO] auto discovered modules [cn.nh121.AppWidgetSet]</div><div class="line">[INFO] 1 source files from GWT module cn.nh121.AppWidgetSet</div><div class="line">[INFO]</div><div class="line">[INFO] &lt;&lt;&lt; vaadin-maven-plugin:7.0.1:compile (default-cli) @ Test &lt;&lt;&lt;</div><div class="line">[INFO]</div><div class="line">[INFO] --- vaadin-maven-plugin:7.0.1:compile (default-cli) @ Test ---</div><div class="line">[INFO] auto discovered modules [cn.nh121.AppWidgetSet]</div><div class="line">[INFO] Compiling module cn.nh121.AppWidgetSet</div><div class="line">[INFO] Computing all possible rebind results for &apos;com.vaadin.client.metadata.ConnectorBundleLoader&apos;</div><div class="line">[INFO] Rebinding com.vaadin.client.metadata.ConnectorBundleLoader</div><div class="line">[INFO] Invoking generator com.vaadin.server.widgetsetutils.ConnectorBundleLoaderFactory</div><div class="line">[INFO] Populating eager bundle</div><div class="line">[INFO] Visiting VerticalLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] VerticalLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.orderedlayout.VerticalLayoutState as a bean</div><div class="line">[INFO] Will serialize class java.util.HashMap&lt;com.vaadin.shared.Connector, com.vaadin.shared.ui.orderedlayout.AbstractOrderedLayoutState.ChildComponentData&gt; as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.orderedlayout.AbstractOrderedLayoutState.ChildComponentData as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.communication.URLReference using URLReference_Serializer</div><div class="line">[INFO] Visiting UIConnector with ConnectorInitVisitor</div><div class="line">[INFO] UIConnector will be in the eager bundle</div><div class="line">[INFO] Visiting UIConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.ui.UIConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.ui.UIState as a bean</div><div class="line">[INFO] Visiting TableConnector with ConnectorInitVisitor</div><div class="line">[INFO] TableConnector will be in the eager bundle</div><div class="line">[INFO] Visiting TableConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.table.TableConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.table.TableState as a bean</div><div class="line">[INFO] Visiting NativeSelectConnector with ConnectorInitVisitor</div><div class="line">[INFO] NativeSelectConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.AbstractFieldState as a bean</div><div class="line">[INFO] Visiting CustomComponentConnector with ConnectorInitVisitor</div><div class="line">[INFO] CustomComponentConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.AbstractComponentState as a bean</div><div class="line">[INFO] Visiting WindowConnector with ConnectorInitVisitor</div><div class="line">[INFO] WindowConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.window.WindowState as a bean</div><div class="line">[INFO] Visiting PasswordFieldConnector with ConnectorInitVisitor</div><div class="line">[INFO] PasswordFieldConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.textfield.AbstractTextFieldState as a bean</div><div class="line">[INFO] Visiting InlineDateFieldConnector with ConnectorInitVisitor</div><div class="line">[INFO] InlineDateFieldConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.datefield.InlineDateFieldState as a bean</div><div class="line">[INFO] Visiting PanelConnector with ConnectorInitVisitor</div><div class="line">[INFO] PanelConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.panel.PanelState as a bean</div><div class="line">[INFO] Visiting CustomFieldConnector with ConnectorInitVisitor</div><div class="line">[INFO] CustomFieldConnector will be in the eager bundle</div><div class="line">[INFO] Visiting DragAndDropWrapperConnector with ConnectorInitVisitor</div><div class="line">[INFO] DragAndDropWrapperConnector will be in the eager bundle</div><div class="line">[INFO] Visiting LinkConnector with ConnectorInitVisitor</div><div class="line">[INFO] LinkConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.link.LinkState as a bean</div><div class="line">[INFO] Visiting BrowserWindowOpenerConnector with ConnectorInitVisitor</div><div class="line">[INFO] BrowserWindowOpenerConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.BrowserWindowOpenerState as a bean</div><div class="line">[INFO] Visiting ImageConnector with ConnectorInitVisitor</div><div class="line">[INFO] ImageConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.image.ImageState as a bean</div><div class="line">[INFO] Visiting LabelConnector with ConnectorInitVisitor</div><div class="line">[INFO] LabelConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.label.LabelState as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.label.ContentMode as an enum</div><div class="line">[INFO] Visiting BrowserFrameConnector with ConnectorInitVisitor</div><div class="line">[INFO] BrowserFrameConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.browserframe.BrowserFrameState as a bean</div><div class="line">[INFO] Visiting TabsheetConnector with ConnectorInitVisitor</div><div class="line">[INFO] TabsheetConnector will be in the eager bundle</div><div class="line">[INFO] Visiting TabsheetConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.tabsheet.TabsheetConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.tabsheet.TabsheetState as a bean</div><div class="line">[INFO] Visiting TreeConnector with ConnectorInitVisitor</div><div class="line">[INFO] TreeConnector will be in the eager bundle</div><div class="line">[INFO] Visiting TreeConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.tree.TreeConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.tree.TreeState as a bean</div><div class="line">[INFO] Visiting NativeButtonConnector with ConnectorInitVisitor</div><div class="line">[INFO] NativeButtonConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.button.NativeButtonState as a bean</div><div class="line">[INFO] Visiting PopupDateFieldConnector with ConnectorInitVisitor</div><div class="line">[INFO] PopupDateFieldConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.datefield.PopupDateFieldState as a bean</div><div class="line">[INFO] Visiting EmbeddedConnector with ConnectorInitVisitor</div><div class="line">[INFO] EmbeddedConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.embedded.EmbeddedState as a bean</div><div class="line">[INFO] Visiting FlashConnector with ConnectorInitVisitor</div><div class="line">[INFO] FlashConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.flash.FlashState as a bean</div><div class="line">[INFO] Visiting CssLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] CssLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.csslayout.CssLayoutState as a bean</div><div class="line">[INFO] Visiting AudioConnector with ConnectorInitVisitor</div><div class="line">[INFO] AudioConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.AbstractMediaState as a bean</div><div class="line">[INFO] Visiting VideoConnector with ConnectorInitVisitor</div><div class="line">[INFO] VideoConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.video.VideoState as a bean</div><div class="line">[INFO] Visiting CustomLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] CustomLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.customlayout.CustomLayoutState as a bean</div><div class="line">[INFO] Visiting AbsoluteLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] AbsoluteLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.absolutelayout.AbsoluteLayoutState as a bean</div><div class="line">[INFO] Visiting HorizontalLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] HorizontalLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.orderedlayout.HorizontalLayoutState as a bean</div><div class="line">[INFO] Visiting TextFieldConnector with ConnectorInitVisitor</div><div class="line">[INFO] TextFieldConnector will be in the eager bundle</div><div class="line">[INFO] Visiting ListSelectConnector with ConnectorInitVisitor</div><div class="line">[INFO] ListSelectConnector will be in the eager bundle</div><div class="line">[INFO] Visiting FileDownloaderConnector with ConnectorInitVisitor</div><div class="line">[INFO] FileDownloaderConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.communication.SharedState as a bean</div><div class="line">[INFO] Visiting ButtonConnector with ConnectorInitVisitor</div><div class="line">[INFO] ButtonConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.button.ButtonState as a bean</div><div class="line">[INFO] Visiting GridLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] GridLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.gridlayout.GridLayoutState as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.gridlayout.GridLayoutState.ChildComponentData as a bean</div><div class="line">[INFO] Visiting TwinColSelectConnector with ConnectorInitVisitor</div><div class="line">[INFO] TwinColSelectConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.twincolselect.TwinColSelectState as a bean</div><div class="line">[INFO] Visiting JavaScriptExtension with ConnectorInitVisitor</div><div class="line">[INFO] JavaScriptExtension will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.JavaScriptExtensionState as a bean</div><div class="line">[INFO] Visiting FormConnector with ConnectorInitVisitor</div><div class="line">[INFO] FormConnector will be in the eager bundle</div><div class="line">[INFO] Visiting FormConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.form.FormConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.form.FormState as a bean</div><div class="line">[INFO] Visiting TextAreaConnector with ConnectorInitVisitor</div><div class="line">[INFO] TextAreaConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.textarea.TextAreaState as a bean</div><div class="line">[INFO] Visiting UploadConnector with ConnectorInitVisitor</div><div class="line">[INFO] UploadConnector will be in the eager bundle</div><div class="line">[INFO] Visiting FormLayoutConnector with ConnectorInitVisitor</div><div class="line">[INFO] FormLayoutConnector will be in the eager bundle</div><div class="line">[INFO] Visiting FormLayoutConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.formlayout.FormLayoutConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.orderedlayout.AbstractOrderedLayoutState as a bean</div><div class="line">[INFO] Visiting JavaScriptManagerConnector with ConnectorInitVisitor</div><div class="line">[INFO] JavaScriptManagerConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.extension.javascriptmanager.JavaScriptManagerState as a bean</div><div class="line">[INFO] Visiting ProgressIndicatorConnector with ConnectorInitVisitor</div><div class="line">[INFO] ProgressIndicatorConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.progressindicator.ProgressIndicatorState as a bean</div><div class="line">[INFO] Visiting SliderConnector with ConnectorInitVisitor</div><div class="line">[INFO] SliderConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.slider.SliderState as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.slider.SliderOrientation as an enum</div><div class="line">[INFO] Visiting ComboBoxConnector with ConnectorInitVisitor</div><div class="line">[INFO] ComboBoxConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.combobox.ComboBoxState as a bean</div><div class="line">[INFO] Visiting AccordionConnector with ConnectorInitVisitor</div><div class="line">[INFO] AccordionConnector will be in the eager bundle</div><div class="line">[INFO] Visiting CheckBoxConnector with ConnectorInitVisitor</div><div class="line">[INFO] CheckBoxConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.checkbox.CheckBoxState as a bean</div><div class="line">[INFO] Visiting VerticalSplitPanelConnector with ConnectorInitVisitor</div><div class="line">[INFO] VerticalSplitPanelConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.splitpanel.VerticalSplitPanelState as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.splitpanel.AbstractSplitPanelState.SplitterState as a bean</div><div class="line">[INFO] Visiting JavaScriptComponentConnector with ConnectorInitVisitor</div><div class="line">[INFO] JavaScriptComponentConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.JavaScriptComponentState as a bean</div><div class="line">[INFO] Visiting OptionGroupConnector with ConnectorInitVisitor</div><div class="line">[INFO] OptionGroupConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.optiongroup.OptionGroupState as a bean</div><div class="line">[INFO] Visiting PopupViewConnector with ConnectorInitVisitor</div><div class="line">[INFO] PopupViewConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.popupview.PopupViewState as a bean</div><div class="line">[INFO] Visiting TreeTableConnector with ConnectorInitVisitor</div><div class="line">[INFO] TreeTableConnector will be in the eager bundle</div><div class="line">[INFO] Visiting TreeTableConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.treetable.TreeTableConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.treetable.TreeTableState as a bean</div><div class="line">[INFO] Visiting MenuBarConnector with ConnectorInitVisitor</div><div class="line">[INFO] MenuBarConnector will be in the eager bundle</div><div class="line">[INFO] Visiting MenuBarConnector with WidgetInitVisitor</div><div class="line">[INFO] [WARN] com.vaadin.client.ui.menubar.MenuBarConnector has overridden getTooltipInfo</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.menubar.MenuBarState as a bean</div><div class="line">[INFO] Visiting HorizontalSplitPanelConnector with ConnectorInitVisitor</div><div class="line">[INFO] HorizontalSplitPanelConnector will be in the eager bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.splitpanel.HorizontalSplitPanelState as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.MouseEventDetails as a bean</div><div class="line">[INFO] Will serialize class com.vaadin.shared.MouseEventDetails.MouseButton as an enum</div><div class="line">[INFO] Populating RichTextAreaConnector bundle</div><div class="line">[INFO] Visiting RichTextAreaConnector with ConnectorInitVisitor</div><div class="line">[INFO] RichTextAreaConnector will be in the RichTextAreaConnector bundle</div><div class="line">[INFO] Populating ColorPickerGradientConnector bundle</div><div class="line">[INFO] Visiting ColorPickerGradientConnector with ConnectorInitVisitor</div><div class="line">[INFO] ColorPickerGradientConnector will be in the ColorPickerGradientConnector bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.colorpicker.ColorPickerGradientState as a bean</div><div class="line">[INFO] Populating ColorPickerAreaConnector bundle</div><div class="line">[INFO] Visiting ColorPickerAreaConnector with ConnectorInitVisitor</div><div class="line">[INFO] ColorPickerAreaConnector will be in the ColorPickerAreaConnector bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.colorpicker.ColorPickerState as a bean</div><div class="line">[INFO] Populating ColorPickerConnector bundle</div><div class="line">[INFO] Visiting ColorPickerConnector with ConnectorInitVisitor</div><div class="line">[INFO] ColorPickerConnector will be in the ColorPickerConnector bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.colorpicker.ColorPickerState as a bean</div><div class="line">[INFO] Populating ColorPickerGridConnector bundle</div><div class="line">[INFO] Visiting ColorPickerGridConnector with ConnectorInitVisitor</div><div class="line">[INFO] ColorPickerGridConnector will be in the ColorPickerGridConnector bundle</div><div class="line">[INFO] Will serialize class com.vaadin.shared.ui.colorpicker.ColorPickerGridState as a bean</div><div class="line">[INFO] Will serialize java.lang.String[] as an array</div><div class="line">[INFO] Computing all possible rebind results for &apos;com.vaadin.client.ui.dd.VAcceptCriterionFactory&apos;</div><div class="line">[INFO] Rebinding com.vaadin.client.ui.dd.VAcceptCriterionFactory</div><div class="line">[INFO] Invoking generator com.vaadin.server.widgetsetutils.AcceptCriteriaFactoryGenerator</div><div class="line">[INFO] Detecting available criteria ...</div><div class="line">[INFO] creating mapping for com.vaadin.ui.AbstractSelect.TargetItemIs</div><div class="line">[INFO] creating mapping for com.vaadin.ui.Table.TableDropCriterion</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.SourceIs</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.SourceIsTarget</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.AcceptAll</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.Not</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.And</div><div class="line">[INFO] creating mapping for com.vaadin.ui.AbstractSelect.AcceptItem</div><div class="line">[INFO] creating mapping for com.vaadin.ui.Tree.TreeDropCriterion</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.ServerSideCriterion</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.Or</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.TargetDetailIs</div><div class="line">[INFO] creating mapping for com.vaadin.ui.Tree.TargetInSubtree</div><div class="line">[INFO] creating mapping for com.vaadin.event.dd.acceptcriteria.ContainsDataFlavor</div><div class="line">[INFO] Done. (0seconds)</div><div class="line">[INFO] Compiling 6 permutations</div><div class="line">[INFO] Compiling permutation 2...</div><div class="line">[INFO] Process output</div><div class="line">[INFO] Compiling</div><div class="line">[INFO] Compiling permutation 1...</div><div class="line">[INFO] Process output</div><div class="line">[INFO] Compiling</div><div class="line">[INFO] Compiling permutation 3...</div><div class="line">[INFO] Process output</div><div class="line">[INFO] Compiling</div><div class="line">[INFO] Compiling permutation 0...</div><div class="line">[INFO] [ERROR] Unexpected internal compiler error</div><div class="line">[INFO] java.lang.RuntimeException: Unable to write to byte cache</div><div class="line">[INFO] at com.google.gwt.dev.util.DiskCache.writeByteArray(DiskCache.java:219)</div><div class="line">[INFO] at com.google.gwt.core.ext.linker.SyntheticArtifact.&lt;init&gt;(SyntheticArtifact.java:49)</div><div class="line">[INFO] at com.google.gwt.core.ext.linker.SyntheticArtifact.&lt;init&gt;(SyntheticArtifact.java:41)</div><div class="line">[INFO] at com.google.gwt.soyc.io.ArtifactsOutputDirectory$OutputStreamForArtifact.close(ArtifactsOutputDirectory.java:52)</div><div class="line">[INFO] at sun.nio.cs.StreamEncoder.implClose(Unknown Source)</div><div class="line">[INFO] at sun.nio.cs.StreamEncoder.close(Unknown Source)</div><div class="line">[INFO] at java.io.OutputStreamWriter.close(Unknown Source)</div><div class="line">[INFO] at java.io.BufferedWriter.close(Unknown Source)</div><div class="line">[INFO] at java.io.PrintWriter.close(Unknown Source)</div><div class="line">[INFO] at com.google.gwt.soyc.MakeTopLevelHtmlForPerm.makeCodeTypeClassesHtmls(MakeTopLevelHtmlForPerm.java:805)</div><div class="line">[INFO] at com.google.gwt.soyc.SoycDashboard.makeHTMLFiles(SoycDashboard.java:435)</div><div class="line">[INFO] at com.google.gwt.soyc.SoycDashboard.generateForOnePermutation(SoycDashboard.java:340)</div><div class="line">[INFO] at com.google.gwt.dev.jjs.JavaToJavaScriptCompiler.makeSoycArtifacts(JavaToJavaScriptCompiler.java:1230)</div><div class="line">[INFO] at com.google.gwt.dev.jjs.JavaToJavaScriptCompiler.compilePermutation(JavaToJavaScriptCompiler.java:503)</div><div class="line">[INFO] at com.google.gwt.dev.jjs.UnifiedAst.compilePermutation(UnifiedAst.java:134)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePerms.compile(CompilePerms.java:195)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.compilePermutation(CompilePermsServer.java:305)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.run(CompilePermsServer.java:274)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.main(CompilePermsServer.java:237)</div><div class="line">[INFO] Caused by: java.io.IOException: ���̿ռ䲻�㡣</div><div class="line">[INFO] at java.io.RandomAccessFile.writeBytes(Native Method)</div><div class="line">[INFO] at java.io.RandomAccessFile.write(Unknown Source)</div><div class="line">[INFO] at com.google.gwt.dev.util.DiskCache.writeByteArray(DiskCache.java:216)</div><div class="line">[INFO] ... 18 more</div><div class="line">[INFO] [ERROR] Error from external worker</div><div class="line">[INFO] com.google.gwt.core.ext.UnableToCompleteException: (see previous log entries)</div><div class="line">[INFO] at com.google.gwt.dev.javac.CompilationProblemReporter.logAndTranslateException(CompilationProblemReporter.java:96)</div><div class="line">[INFO] at com.google.gwt.dev.jjs.JavaToJavaScriptCompiler.compilePermutation(JavaToJavaScriptCompiler.java:523)</div><div class="line">[INFO] at com.google.gwt.dev.jjs.UnifiedAst.compilePermutation(UnifiedAst.java:134)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePerms.compile(CompilePerms.java:195)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.compilePermutation(CompilePermsServer.java:305)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.run(CompilePermsServer.java:274)</div><div class="line">[INFO] at com.google.gwt.dev.CompilePermsServer.main(CompilePermsServer.java:237)</div><div class="line">[INFO] [ERROR] Unrecoverable exception, shutting down</div><div class="line">[INFO] com.google.gwt.core.ext.UnableToCompleteException: (see previous log entries)</div><div class="line">[INFO] at com.google.gwt.dev.ExternalPermutationWorkerFactory$ExternalPermutationWorker.compile(ExternalPermutationWorkerFactory.java:155)</div><div class="line">[INFO] at com.google.gwt.dev.PermutationWorkerFactory$Manager$WorkerThread.run(PermutationWorkerFactory.java:73)</div><div class="line">[INFO] at java.lang.Thread.run(Unknown Source)</div><div class="line">[INFO] [ERROR] Not all permutation were compiled , completed (0/6)</div><div class="line">[INFO] [WARN] Lost communication with remote process</div><div class="line">[INFO] java.net.SocketException: socket closed</div><div class="line">[INFO] at java.net.SocketInputStream.socketRead0(Native Method)</div><div class="line">[INFO] at java.net.SocketInputStream.read(Unknown Source)</div><div class="line">[INFO] at java.net.SocketInputStream.read(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$PeekInputStream.peek(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$BlockDataInputStream.peek(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$BlockDataInputStream.peekByte(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream.readObject0(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream.readObject(Unknown Source)</div><div class="line">[INFO] at com.google.gwt.dev.ExternalPermutationWorkerFactory$ExternalPermutationWorker.compile(ExternalPermutationWorkerFactory.java:152)</div><div class="line">[INFO] at com.google.gwt.dev.PermutationWorkerFactory$Manager$WorkerThread.run(PermutationWorkerFactory.java:73)</div><div class="line">[INFO] at java.lang.Thread.run(Unknown Source)</div><div class="line">[INFO] [WARN] Lost communication with remote process</div><div class="line">[INFO] java.net.SocketException: socket closed</div><div class="line">[INFO] at java.net.SocketInputStream.socketRead0(Native Method)</div><div class="line">[INFO] at java.net.SocketInputStream.read(Unknown Source)</div><div class="line">[INFO] at java.net.SocketInputStream.read(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$PeekInputStream.peek(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$BlockDataInputStream.peek(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream$BlockDataInputStream.peekByte(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream.readObject0(Unknown Source)</div><div class="line">[INFO] at java.io.ObjectInputStream.readObject(Unknown Source)</div><div class="line">[INFO] at com.google.gwt.dev.ExternalPermutationWorkerFactory$ExternalPermutationWorker.compile(ExternalPermutationWorkerFactory.java:152)</div><div class="line">[INFO] at com.google.gwt.dev.PermutationWorkerFactory$Manager$WorkerThread.run(PermutationWorkerFactory.java:73)</div><div class="line">[INFO] at java.lang.Thread.run(Unknown Source)</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] BUILD FAILURE</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Total time: 1:49.312s</div><div class="line">[INFO] Finished at: Thu Feb 21 23:06:18 CST 2013</div><div class="line">[INFO] Final Memory: 7M/18M</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[ERROR] Failed to execute goal com.vaadin:vaadin-maven-plugin:7.0.1:compile (default-cli) on project Test: Command [[</div><div class="line">[ERROR] C:\Program Files\Java\jre6\bin\java -Xmx512M -Xss1024k -classpath D:\development\workspace\Test\target\classes;D:\development\workspace\Test\src\main\java;D:\development\workspace\Test\src\main\resources;D:\development\lib\com\vaadin\vaadin-server\7.0.1\vaadin-server-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared\7.0.1\vaadin-shared-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared-deps\1.0.2\vaadin-shared-deps-1.0.2.jar;D:\development\lib\com\vaadin\vaadin-theme-compiler\7.0.1\vaadin-theme-compiler-7.0.1.jar;D:\development\lib\org\apache\commons\commons-jexl\2.1.1\commons-jexl-2.1.1.jar;D:\development\lib\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar;D:\development\lib\net\sourceforge\cssparser\cssparser\0.9.5\cssparser-0.9.5.jar;D:\development\lib\commons-cli\commons-cli\1.2\commons-cli-1.2.jar;D:\development\lib\org\jsoup\jsoup\1.6.3\jsoup-1.6.3.jar;D:\development\lib\com\vaadin\vaadin-client-compiled\7.0.1\vaadin-client-compiled-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-client\7.0.1\vaadin-client-7.0.1.jar;D:\development\lib\org\w3c\css\sac\1.3\sac-1.3.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA-sources.jar;D:\development\lib\com\vaadin\vaadin-themes\7.0.1\vaadin-themes-7.0.1.jar;D:\development\lib\javax\servlet\servlet-api\2.4\servlet-api-2.4.jar;D:\development\lib\com\vaadin\vaadin-client\7.0.1\vaadin-client-7.0.1.jar;D:\development\lib\xerces\xmlParserAPIs\2.6.2\xmlParserAPIs-2.6.2.jar;D:\development\lib\commons-digester\commons-digester\1.6\commons-digester-1.6.jar;D:\development\lib\commons-beanutils\commons-beanutils\1.7.0\commons-beanutils-1.7.0.jar;D:\development\lib\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar;D:\development\lib\commons-collections\commons-collections\3.2\commons-collections-3.2.jar;D:\development\lib\xml-apis\xml-apis\1.3.02\xml-apis-1.3.02.jar;D:\development\lib\oro\oro\2.0.8\oro-2.0.8.jar;D:\development\lib\com\vaadin\vaadin-client-compiler\7.0.1\vaadin-client-compiler-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared\7.0.1\vaadin-shared-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared-deps\1.0.2\vaadin-shared-deps-1.0.2.jar;D:\development\lib\com\vaadin\vaadin-server\7.0.1\vaadin-server-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-theme-compiler\7.0.1\vaadin-theme-compiler-7.0.1.jar;D:\development\lib\org\apache\commons\commons-jexl\2.1.1\commons-jexl-2.1.1.jar;D:\development\lib\org\w3c\css\sac\1.3\sac-1.3.jar;D:\development\lib\net\sourceforge\cssparser\cssparser\0.9.5\cssparser-0.9.5.jar;D:\development\lib\commons-cli\commons-cli\1.2\commons-cli-1.2.jar;D:\development\lib\org\jsoup\jsoup\1.6.3\jsoup-1.6.3.jar;D:\development\lib\org\codehaus\plexus\plexus-compiler-javac\1.5.3\plexus-compiler-javac-1.5.3.jar;D:\development\lib\org\codehaus\plexus\plexus-utils\2.0.5\plexus-utils-2.0.5.jar;D:\development\lib\org\codehaus\plexus\plexus-compiler-api\1.5.3\plexus-compiler-api-1.5.3.jar;D:\development\lib\org\codehaus\plexus\plexus-container-default\1.0-alpha-8\plexus-container-default-1.0-alpha-8.jar;D:\development\lib\junit\junit\4.8.1\junit-4.8.1.jar;D:\development\lib\org\apache\maven\doxia\doxia-logging-api\1.1.4\doxia-logging-api-1.1.4.jar;D:\development\lib\org\codehaus\plexus\plexus-interpolation\1.13\plexus-interpolation-1.13.jar;D:\development\lib\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;D:\development\lib\org\apache\maven\doxia\doxia-sink-api\1.1.4\doxia-sink-api-1.1.4.jar;D:\development\lib\org\apache\maven\maven-archiver\2.4.1\maven-archiver-2.4.1.jar;D:\development\lib\org\apache\maven\maven-artifact\2.0.6\maven-artifact-2.0.6.jar;D:\development\lib\org\apache\maven\maven-model\2.0.6\maven-model-2.0.6.jar;D:\development\lib\org\codehaus\plexus\plexus-archiver\1.0-alpha-9\plexus-archiver-1.0-alpha-9.jar;D:\development\lib\org\codehaus\plexus\plexus-io\1.0-alpha-1\plexus-io-1.0-alpha-1.jar;D:\development\lib\jakarta-regexp\jakarta-regexp\1.4\jakarta-regexp-1.4.jar;D:\development\lib\org\apache\bcel\bcel\5.2\bcel-5.2.jar;D:\development\lib\jaxen\jaxen\1.1.1\jaxen-1.1.1.jar;D:\development\lib\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;D:\development\lib\jdom\jdom\1.0\jdom-1.0.jar;D:\development\lib\xerces\xercesImpl\2.9.1\xercesImpl-2.9.1.jar;D:\development\lib\xom\xom\1.0\xom-1.0.jar;D:\development\lib\xalan\xalan\2.6.0\xalan-2.6.0.jar;D:\development\lib\com\ibm\icu\icu4j\2.6.1\icu4j-2.6.1.jar;D:\development\lib\org\apache\maven\surefire\surefire-api\2.4.3\surefire-api-2.4.3.jar;D:\development\lib\org\apache\velocity\velocity\1.5\velocity-1.5.jar;D:\development\lib\commons-lang\commons-lang\2.5\commons-lang-2.5.jar;D:\development\lib\commons-httpclient\commons-httpclient\3.1\commons-httpclient-3.1.jar;D:\development\lib\commons-codec\commons-codec\1.3\commons-codec-1.3.jar;D:\development\lib\org\codehaus\plexus\plexus-component-api\1.0-alpha-15\plexus-component-api-1.0-alpha-15.jar;D:\development\lib\org\codehaus\plexus\plexus-classworlds\1.2-alpha-6\plexus-classworlds-1.2-alpha-6.jar;D:\development\lib\com\vaadin\vaadin-maven-plugin\7.0.1\vaadin-maven-plugin-7.0.1.jar;D:\development\lib\org\apache\maven\maven-project\2.0.9\maven-project-2.0.9.jar;D:\development\lib\org\apache\maven\maven-settings\2.0.10\maven-settings-2.0.10.jar;D:\development\lib\org\apache\maven\maven-profile\2.0.10\maven-profile-2.0.10.jar;D:\development\lib\org\apache\maven\maven-artifact-manager\2.0.10\maven-artifact-manager-2.0.10.jar;D:\development\lib\org\apache\maven\maven-repository-metadata\2.0.10\maven-repository-metadata-2.0.10.jar;D:\development\lib\org\apache\maven\wagon\wagon-provider-api\1.0-beta-2\wagon-provider-api-1.0-beta-2.jar;D:\development\lib\org\apache\maven\maven-plugin-registry\2.0.10\maven-plugin-registry-2.0.10.jar;D:\development\lib\org\apache\maven\maven-plugin-api\2.0.9\maven-plugin-api-2.0.9.jar;D:\development\lib\org\apache\maven\reporting\maven-reporting-impl\2.1\maven-reporting-impl-2.1.jar;D:\development\lib\org\apache\maven\doxia\doxia-core\1.1.2\doxia-core-1.1.2.jar;D:\development\lib\org\apache\maven\doxia\doxia-site-renderer\1.1.4\doxia-site-renderer-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-decoration-model\1.1.4\doxia-decoration-model-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-module-xhtml\1.1.4\doxia-module-xhtml-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-module-fml\1.1.4\doxia-module-fml-1.1.4.jar;D:\development\lib\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;D:\development\lib\org\codehaus\plexus\plexus-velocity\1.1.7\plexus-velocity-1.1.7.jar;D:\development\lib\commons-validator\commons-validator\1.2.0\commons-validator-1.2.0.jar;D:\development\lib\org\springframework\spring-core\3.0.5.RELEASE\spring-core-3.0.5.RELEASE.jar;D:\development\lib\org\springframework\spring-asm\3.0.5.RELEASE\spring-asm-3.0.5.RELEASE.jar;D:\development\lib\com\thoughtworks\qdox\qdox\1.12\qdox-1.12.jar;D:\development\lib\freemarker\freemarker\2.3.6\freemarker-2.3.6.jar;D:\development\lib\velocity\velocity\1.4\velocity-1.4.jar;D:\development\lib\velocity\velocity-dep\1.4\velocity-dep-1.4.jar;D:\development\lib\org\mortbay\jetty\jetty-util\6.1.11\jetty-util-6.1.11.jar;D:\development\lib\org\mortbay\jetty\servlet-api-2.5\6.1.11\servlet-api-2.5-6.1.11.jar;D:\development\lib\org\mortbay\jetty\jetty\6.1.11\jetty-6.1.11.jar;D:\development\lib\org\apache\maven\surefire\surefire-booter\2.4.3\surefire-booter-2.4.3.jar;D:\development\lib\org\jdesktop\swing-worker\1.1\swing-worker-1.1.jar;D:\development\lib\org\jdom\jdom\1.1\jdom-1.1.jar;D:\development\lib\org\apache\james\apache-mime4j\0.6\apache-mime4j-0.6.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA-sources.jar;D:\development\lib\commons-io\commons-io\2.0.1\commons-io-2.0.1.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar;D:\development\lib\ant\ant\1.6.5\ant-1.6.5.jar;D:\development\lib\ant\ant-launcher\1.6.5\ant-launcher-1.6.5.jar;D:\development\lib\com\vaadin\vaadin-client-compiler\7.0.1\vaadin-client-compiler-7.0.1.jar;D:\development\lib\xerces\xmlParserAPIs\2.6.2\xmlParserAPIs-2.6.2.jar;D:\development\lib\commons-digester\commons-digester\1.6\commons-digester-1.6.jar;D:\development\lib\commons-beanutils\commons-beanutils\1.7.0\commons-beanutils-1.7.0.jar;D:\development\lib\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar;D:\development\lib\commons-collections\commons-collections\3.2\commons-collections-3.2.jar;D:\development\lib\xml-apis\xml-apis\1.3.02\xml-apis-1.3.02.jar;D:\development\lib\oro\oro\2.0.8\oro-2.0.8.jar;D:\development\lib\org\codehaus\plexus\plexus-compiler-javac\1.5.3\plexus-compiler-javac-1.5.3.jar;D:\development\lib\org\codehaus\plexus\plexus-utils\2.0.5\plexus-utils-2.0.5.jar;D:\development\lib\org\codehaus\plexus\plexus-compiler-api\1.5.3\plexus-compiler-api-1.5.3.jar;D:\development\lib\org\codehaus\plexus\plexus-container-default\1.0-alpha-8\plexus-container-default-1.0-alpha-8.jar;D:\development\lib\junit\junit\4.8.1\junit-4.8.1.jar;D:\development\lib\org\apache\maven\doxia\doxia-logging-api\1.1.4\doxia-logging-api-1.1.4.jar;D:\development\lib\org\codehaus\plexus\plexus-interpolation\1.13\plexus-interpolation-1.13.jar;D:\development\lib\org\apache\maven\reporting\maven-reporting-api\3.0\maven-reporting-api-3.0.jar;D:\development\lib\org\apache\maven\doxia\doxia-sink-api\1.1.4\doxia-sink-api-1.1.4.jar;D:\development\lib\org\apache\maven\maven-archiver\2.4.1\maven-archiver-2.4.1.jar;D:\development\lib\org\apache\maven\maven-artifact\2.0.6\maven-artifact-2.0.6.jar;D:\development\lib\org\apache\maven\maven-model\2.0.6\maven-model-2.0.6.jar;D:\development\lib\org\codehaus\plexus\plexus-archiver\1.0-alpha-9\plexus-archiver-1.0-alpha-9.jar;D:\development\lib\org\codehaus\plexus\plexus-io\1.0-alpha-1\plexus-io-1.0-alpha-1.jar;D:\development\lib\jakarta-regexp\jakarta-regexp\1.4\jakarta-regexp-1.4.jar;D:\development\lib\org\apache\bcel\bcel\5.2\bcel-5.2.jar;D:\development\lib\jaxen\jaxen\1.1.1\jaxen-1.1.1.jar;D:\development\lib\dom4j\dom4j\1.6.1\dom4j-1.6.1.jar;D:\development\lib\jdom\jdom\1.0\jdom-1.0.jar;D:\development\lib\xerces\xercesImpl\2.9.1\xercesImpl-2.9.1.jar;D:\development\lib\xom\xom\1.0\xom-1.0.jar;D:\development\lib\xalan\xalan\2.6.0\xalan-2.6.0.jar;D:\development\lib\com\ibm\icu\icu4j\2.6.1\icu4j-2.6.1.jar;D:\development\lib\org\apache\maven\surefire\surefire-api\2.4.3\surefire-api-2.4.3.jar;D:\development\lib\net\sourceforge\cssparser\cssparser\0.9.5\cssparser-0.9.5.jar;D:\development\lib\org\w3c\css\sac\1.3\sac-1.3.jar;D:\development\lib\org\apache\velocity\velocity\1.5\velocity-1.5.jar;D:\development\lib\commons-lang\commons-lang\2.5\commons-lang-2.5.jar;D:\development\lib\commons-httpclient\commons-httpclient\3.1\commons-httpclient-3.1.jar;D:\development\lib\commons-codec\commons-codec\1.3\commons-codec-1.3.jar;D:\development\lib\org\codehaus\plexus\plexus-component-api\1.0-alpha-15\plexus-component-api-1.0-alpha-15.jar;D:\development\lib\org\codehaus\plexus\plexus-classworlds\1.2-alpha-6\plexus-classworlds-1.2-alpha-6.jar;D:\development\lib\com\vaadin\vaadin-maven-plugin\7.0.1\vaadin-maven-plugin-7.0.1.jar;D:\development\lib\org\apache\maven\maven-project\2.0.9\maven-project-2.0.9.jar;D:\development\lib\org\apache\maven\maven-settings\2.0.10\maven-settings-2.0.10.jar;D:\development\lib\org\apache\maven\maven-profile\2.0.10\maven-profile-2.0.10.jar;D:\development\lib\org\apache\maven\maven-artifact-manager\2.0.10\maven-artifact-manager-2.0.10.jar;D:\development\lib\org\apache\maven\maven-repository-metadata\2.0.10\maven-repository-metadata-2.0.10.jar;D:\development\lib\org\apache\maven\wagon\wagon-provider-api\1.0-beta-2\wagon-provider-api-1.0-beta-2.jar;D:\development\lib\org\apache\maven\maven-plugin-registry\2.0.10\maven-plugin-registry-2.0.10.jar;D:\development\lib\org\apache\maven\maven-plugin-api\2.0.9\maven-plugin-api-2.0.9.jar;D:\development\lib\org\apache\maven\reporting\maven-reporting-impl\2.1\maven-reporting-impl-2.1.jar;D:\development\lib\org\apache\maven\doxia\doxia-core\1.1.2\doxia-core-1.1.2.jar;D:\development\lib\org\apache\maven\doxia\doxia-site-renderer\1.1.4\doxia-site-renderer-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-decoration-model\1.1.4\doxia-decoration-model-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-module-xhtml\1.1.4\doxia-module-xhtml-1.1.4.jar;D:\development\lib\org\apache\maven\doxia\doxia-module-fml\1.1.4\doxia-module-fml-1.1.4.jar;D:\development\lib\org\codehaus\plexus\plexus-i18n\1.0-beta-7\plexus-i18n-1.0-beta-7.jar;D:\development\lib\org\codehaus\plexus\plexus-velocity\1.1.7\plexus-velocity-1.1.7.jar;D:\development\lib\commons-validator\commons-validator\1.2.0\commons-validator-1.2.0.jar;D:\development\lib\org\springframework\spring-core\3.0.5.RELEASE\spring-core-3.0.5.RELEASE.jar;D:\development\lib\org\springframework\spring-asm\3.0.5.RELEASE\spring-asm-3.0.5.RELEASE.jar;D:\development\lib\com\thoughtworks\qdox\qdox\1.12\qdox-1.12.jar;D:\development\lib\freemarker\freemarker\2.3.6\freemarker-2.3.6.jar;D:\development\lib\com\vaadin\vaadin-client\7.0.1\vaadin-client-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared\7.0.1\vaadin-shared-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-shared-deps\1.0.2\vaadin-shared-deps-1.0.2.jar;D:\development\lib\com\vaadin\vaadin-server\7.0.1\vaadin-server-7.0.1.jar;D:\development\lib\com\vaadin\vaadin-theme-compiler\7.0.1\vaadin-theme-compiler-7.0.1.jar;D:\development\lib\org\apache\commons\commons-jexl\2.1.1\commons-jexl-2.1.1.jar;D:\development\lib\commons-cli\commons-cli\1.2\commons-cli-1.2.jar;D:\development\lib\org\jsoup\jsoup\1.6.3\jsoup-1.6.3.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA.jar;D:\development\lib\javax\validation\validation-api\1.0.0.GA\validation-api-1.0.0.GA-sources.jar;D:\development\lib\velocity\velocity\1.4\velocity-1.4.jar;D:\development\lib\velocity\velocity-dep\1.4\velocity-dep-1.4.jar;D:\development\lib\org\mortbay\jetty\jetty-util\6.1.11\jetty-util-6.1.11.jar;D:\development\lib\org\mortbay\jetty\servlet-api-2.5\6.1.11\servlet-api-2.5-6.1.11.jar;D:\development\lib\org\mortbay\jetty\jetty\6.1.11\jetty-6.1.11.jar;D:\development\lib\org\apache\maven\surefire\surefire-booter\2.4.3\surefire-booter-2.4.3.jar;D:\development\lib\org\jdesktop\swing-worker\1.1\swing-worker-1.1.jar;D:\development\lib\org\jdom\jdom\1.1\jdom-1.1.jar;D:\development\lib\org\apache\james\apache-mime4j\0.6\apache-mime4j-0.6.jar;D:\development\lib\commons-io\commons-io\2.0.1\commons-io-2.0.1.jar;D:\development\lib\ant\ant\1.6.5\ant-1.6.5.jar;D:\development\lib\ant\ant-launcher\1.6.5\ant-launcher-1.6.5.jar com.google.gwt.dev.Compiler -logLevel INFO -style OBF -war D:\development\workspace\Test\src\main\webapp\VAADIN\widgetsets -localWorkers 4 -strict -XfragmentCount -1 -extra D:\development\workspace\Test\target\extra -compileReport -gen D:\development\workspace\Test\target\.generated cn.nh121.AppWidgetSet</div><div class="line">[ERROR] ]] failed with status 1</div><div class="line">[ERROR] -&gt; [Help 1]</div><div class="line">[ERROR]</div><div class="line">[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.</div><div class="line">[ERROR] Re-run Maven using the -X switch to enable full debug logging.</div><div class="line">[ERROR]</div><div class="line">[ERROR] For more information about the errors and possible solutions, please read the following articles:</div><div class="line">[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException</div></pre></td></tr></table></figure>
+<p>好吧，输出信息非常长，从中我留意到程序抛出的一个异常：<code>java.lang.RuntimeException: Unable to write to byte cache</code>，一番Google之后也找不到解决方法。这就奇怪了，今天白天我在公司明明还能编译成功的，怎么回到家就不行了呢？最后细想了一下公司机器和家里机器的区别，开始怀疑是临时空间的问题。<br>家里的机器装了一个叫<code>Vsuite Ramdisk</code>的软件，将4G内存里的600M划出来作为Ramdisk，然后把环境变量中的<code>TEMP</code>和<code>TMP</code>变量都指向这个Ramdisk盘，后来在编译的时候观察这个盘，果然，<strong>容量降到接近没有的时候就编译中断了</strong>。看来问题所在就是临时空间不够，于是赶紧把环境变量修改为原来的位置，再编译，Done！</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>问题虽然不大，但也卡了我接近一晚的时间，看来有时候有些设置也不是随便可以乱改啊。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/vaadin/" rel="tag">#vaadin</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/10/23/linux-mint安装日记/" rel="next" title="Linux Mint安装日记">
+                <i class="fa fa-chevron-left"></i> Linux Mint安装日记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/04/10/egit的一个小错误/" rel="prev" title="egit的一个小错误">
+                egit的一个小错误 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2013/02/21/vaadin学习笔记之记一次编译错误/"
+     data-title="Vaadin学习笔记之记一次编译错误"
+     data-content=""
+     data-url="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2013/02/21/vaadin学习笔记之记一次编译错误/"
+           data-title="Vaadin学习笔记之记一次编译错误" data-url="https://goldymark.github.io/2013/02/21/vaadin学习笔记之记一次编译错误/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GoldyMark" />
+          <p class="site-author-name" itemprop="name">GoldyMark</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">46</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/GoldyMark" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统"><span class="nav-number">1.</span> <span class="nav-text">系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器"><span class="nav-number">2.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IDE"><span class="nav-number">3.</span> <span class="nav-text">IDE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GoldyMark</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"goldymark"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

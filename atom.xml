@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>GoldyMark</title>
+  <subtitle>人的一生/可以活出不止一生</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://goldymark.github.io/"/>
+  <updated>2016-10-20T15:31:30.000Z</updated>
+  <id>https://goldymark.github.io/</id>
+  
+  <author>
+    <name>GoldyMark</name>
+    <email>odmark88@gmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何通过ODBC连接transbase数据库</title>
+    <link href="https://goldymark.github.io/2016/10/20/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87odbc%E8%BF%9E%E6%8E%A5transbase%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>https://goldymark.github.io/2016/10/20/如何通过odbc连接transbase数据库/</id>
+    <published>2016-10-20T15:31:30.000Z</published>
+    <updated>2016-10-20T15:31:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近在研究transbase数据库，发现transbase提供<code>JDBC</code>和<code>ODBC</code>两种连接驱动。前者比较简单就不叙述了，这里主要说一下如何通过<code>ODBC</code>驱动连接transbase数据库。</p>
+<a id="more"></a>
+<p><em>hint：关于在<code>win7 32bit/64bit</code>下如何打开<code>ODBC</code>配置，请自行搜索相关知识，本文不作介绍。</em></p>
+<h2 id="第一步：配置ODBC驱动"><a href="#第一步：配置ODBC驱动" class="headerlink" title="第一步：配置ODBC驱动"></a>第一步：配置ODBC驱动</h2><p>按照以下配置修改注册表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\&lt;DRIVERNAME&gt;]</div><div class="line">&quot;UsageCount&quot;=dword:00000001</div><div class="line">&quot;Driver&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbodbc32.dll&quot;</div><div class="line">&quot;Setup&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbsodb32.dll&quot;</div><div class="line">&quot;Configuration&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbwin.ini&quot;</div><div class="line"></div><div class="line">[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers] &quot;&lt;DRIVERNAME&quot;=&quot;Installed&quot;</div></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>把<code>&lt;DRIVERNAME&gt;</code>替换成单独的驱动名称（不与现有的重复即可），例如：<code>transbase</code>；</li>
+<li>把<code>&lt;INSTALLATIONPATH&gt;</code>替换成<code>transbase</code>的安装目录；</li>
+</ul>
+<h2 id="第二步：配置DSN"><a href="#第二步：配置DSN" class="headerlink" title="第二步：配置DSN"></a>第二步：配置DSN</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]</div><div class="line">&quot;&lt;DSN&gt;&quot;=&quot;&lt;DRIVERNAME&gt;&quot;</div><div class="line">[HKEY_LOCAL_MACHINE\ SOFTW ARE\ODBC\ODBC.INI\&lt;DSN&gt;]</div><div class="line">&quot;Driver&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbodbc32.dll&quot;</div><div class="line">&quot;Description&quot;=&quot;Electronic Part Catalogue B&amp;H&quot;</div><div class="line">&quot;Dbhost&quot;=&quot;&lt;SERVERNAME&gt;&quot;</div><div class="line">&quot;Dbname&quot;=&quot;&lt;DBNAME&gt;&quot;</div><div class="line">&quot;Option1&quot;=&quot;No&quot;</div><div class="line">&quot;Option2&quot;=&quot;No&quot;</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ul>
+<li>把<code>&lt;DRIVERNAME&gt;</code>替换成<strong>第一步</strong>中的<code>&lt;DRIVERNAME&gt;</code>，例如：<code>transbase</code>；</li>
+<li>把<code>&lt;INSTALLATIONPATH&gt;</code>替换成<code>transbase</code>的安装目录；</li>
+<li>把<code>&lt;DSN&gt;</code>替换成单独的数据源名称（不与现有的重复即可），例如：<code>EPC B&amp;H</code>；</li>
+<li>把<code>&lt;SERVER&gt;</code>替换成<code>transbase</code>数据库的host地址；</li>
+<li>把<code>&lt;DBNAME&gt;</code>替换成<code>transbase</code>数据库名称；</li>
+</ul>
+<p>接下来就可以按网上连接ODBC驱动的教程连接<code>transbase</code>数据库了。</p>
+<blockquote>
+<p>Google搜索关键词<br>transbase redistribution</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近在研究transbase数据库，发现transbase提供&lt;code&gt;JDBC&lt;/code&gt;和&lt;code&gt;ODBC&lt;/code&gt;两种连接驱动。前者比较简单就不叙述了，这里主要说一下如何通过&lt;code&gt;ODBC&lt;/code&gt;驱动连接transbase数据库。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+      <category term="database" scheme="https://goldymark.github.io/categories/program/database/"/>
+    
+    
+      <category term="database" scheme="https://goldymark.github.io/tags/database/"/>
+    
+      <category term="transbase" scheme="https://goldymark.github.io/tags/transbase/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol28.独一无二</title>
+    <link href="https://goldymark.github.io/2016/07/13/%E7%8B%AC%E4%B8%80%E6%97%A0%E4%BA%8C/"/>
+    <id>https://goldymark.github.io/2016/07/13/独一无二/</id>
+    <published>2016-07-13T15:37:00.000Z</published>
+    <updated>2016-07-13T15:37:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/07/13/独一无二/IMG_1370.JPG" alt="IMG_1370.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/07/13/独一无二/IMG_1370.JPG&quot; alt=&quot;IMG_1370.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>hessian序列化的坑</title>
+    <link href="https://goldymark.github.io/2016/07/13/hessian%E5%BA%8F%E5%88%97%E5%8C%96%E7%9A%84%E5%9D%91/"/>
+    <id>https://goldymark.github.io/2016/07/13/hessian序列化的坑/</id>
+    <published>2016-07-13T12:00:00.000Z</published>
+    <updated>2016-07-13T12:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>之前使用<code>dubbo</code>服务的过程中发生了一个关于<code>hessian</code>序列化引起的bug，有点意思，记录一下。</p>
+<a id="more"></a>
+<p><code>hessian</code>序列化<code>Collections.emptyList()</code>时，会转换成<code>ArrayList()</code>，并且同一对象内会共用同一个<code>ArrayList</code>对象，例如：</p>
+<p><strong>ProductDTO.java</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* 商品属性表DTO</div><div class="line">*/</div><div class="line">List&lt;ProductAttributeDTO&gt; productAttributeDTOs = Collections.emptyList();</div><div class="line"><span class="comment">/**</span></div><div class="line">* 配件DTO</div><div class="line">*/</div><div class="line">List&lt;PartsDTO&gt; partsDTOs = Collections.emptyList();</div><div class="line"><span class="comment">/**</span></div><div class="line">* 车型DTO</div><div class="line">*/</div><div class="line">List&lt;CarTypeDTO&gt; carTypeDTOs = Collections.emptyList();</div></pre></td></tr></table></figure></p>
+<p>以下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">List&lt;ProductAttributeNameDTO&gt; productAttributeNameDTOs = queryProductAttributeNamesByCategoryId(topCategoryId);</div><div class="line">List&lt;ProductAttributeDTO&gt; productAttributeDTOs = productDTO.getProductAttributeDTOs();<span class="comment">// @1</span></div><div class="line">Set&lt;Integer&gt; attrNameIds = Sets2.transform(productAttributeDTOs, ProductAttributeDTO::getAttrNameId);</div><div class="line">productAttributeNameDTOs.stream()</div><div class="line">       .filter(v -&gt; !attrNameIds.contains(v.getAttrNameId()))</div><div class="line">       .forEach(v -&gt; &#123;</div><div class="line">           ProductAttributeDTO productAttributeDTO = ProductDTOTransformers.convert(v, <span class="keyword">new</span> ProductAttributeDTO());</div><div class="line">           productAttributeDTOs.add(productAttributeDTO);<span class="comment">// @2</span></div><div class="line">       &#125;);</div></pre></td></tr></table></figure></p>
+<p>以上代码的<code>productDTO</code>是从<code>dubbo</code>服务获取的，虽然<code>ProductDTO</code>的默认值是<code>Collections.emptyList()</code>（代码<code>@1</code>），但由于<code>Collections#EMPTY_LIST</code>并无实现序列化接口，<code>hessian</code>在序列化的过程中将其转换成<code>ArrayList</code>，并且同一对象内的<code>Collections.emptyList()</code>都会共用同一个<code>ArrayList</code>对象，造成执行<code>@2</code>操作的时候，<code>partsDTOs</code>和<code>carTypeDTOs</code>同样持有相同的<code>ArrayList</code>对象（java是伪泛型，运行期会抹除），所以当打开<code>debugger</code>或将<code>productDTO</code>序列化成<code>JSON</code>时会发现<code>productAttributeDTOs</code>, <code>partsDTOs</code>和<code>carTypeDTOs</code>的内容是一样的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;之前使用&lt;code&gt;dubbo&lt;/code&gt;服务的过程中发生了一个关于&lt;code&gt;hessian&lt;/code&gt;序列化引起的bug，有点意思，记录一下。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+      <category term="java" scheme="https://goldymark.github.io/categories/program/java/"/>
+    
+    
+      <category term="java" scheme="https://goldymark.github.io/tags/java/"/>
+    
+      <category term="dubbo" scheme="https://goldymark.github.io/tags/dubbo/"/>
+    
+      <category term="hessian" scheme="https://goldymark.github.io/tags/hessian/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol27.最好的结局</title>
+    <link href="https://goldymark.github.io/2016/05/08/%E6%9C%80%E5%A5%BD%E7%9A%84%E7%BB%93%E5%B1%80/"/>
+    <id>https://goldymark.github.io/2016/05/08/最好的结局/</id>
+    <published>2016-05-07T16:23:00.000Z</published>
+    <updated>2016-05-07T16:23:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/05/08/最好的结局/IMG_1371.JPG" alt="IMG_1371.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/05/08/最好的结局/IMG_1371.JPG&quot; alt=&quot;IMG_1371.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用NodeJS操作Excel</title>
+    <link href="https://goldymark.github.io/2016/04/05/%E4%BD%BF%E7%94%A8NodeJS%E6%93%8D%E4%BD%9CExcel/"/>
+    <id>https://goldymark.github.io/2016/04/05/使用NodeJS操作Excel/</id>
+    <published>2016-04-05T15:17:00.000Z</published>
+    <updated>2016-04-05T15:17:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>本周做了比较多数据导入、统计的工作（多是一次性工作，并非常态化），所以考虑使用NodeJS操作Excel（拼SQL、提取/生成数据、etc），提高工作效率（其实是Mac的Excel不好用……）。</p>
+<a id="more"></a>
+<p>首先安装<code>NodeJS</code>，这里不叙述；<br>然后用<code>NPM</code>安装<code>node-xlsx</code>，如果选择全局安装的话，加上<code>-g</code>参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i node-xlsx</div></pre></td></tr></table></figure></p>
+<p><strong>Example Code</strong></p>
+<p><em>readExcel.js</em><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);  <span class="comment">//文件操作模块，类似Java中的File类</span></div><div class="line"><span class="keyword">const</span> xlsx = <span class="built_in">require</span>(<span class="string">'node-xlsx'</span>);</div><div class="line"></div><div class="line"><span class="comment">// 读取excel操作</span></div><div class="line"><span class="keyword">const</span> sheets = xlsx.parse(要读取的Excel路径);  <span class="comment">//这一步会将Excel表的数据读取并转换成json格式</span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * do what you want to do</div><div class="line"> * ...</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="comment">// 写入excel操作</span></div><div class="line"><span class="keyword">let</span> file = xlsx.build([&#123;<span class="attr">name</span>:<span class="string">"sheet1"</span>,<span class="string">"data"</span>:一个二维数组&#125;,&#123;<span class="attr">name</span>:<span class="string">"sheet2"</span>,<span class="string">"data"</span>:一个二维数组&#125;])</div><div class="line">fs.writeFileSync(写入文件的文件名.xlsx, file , <span class="string">'binary'</span>);</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本周做了比较多数据导入、统计的工作（多是一次性工作，并非常态化），所以考虑使用NodeJS操作Excel（拼SQL、提取/生成数据、etc），提高工作效率（其实是Mac的Excel不好用……）。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+      <category term="nodejs" scheme="https://goldymark.github.io/categories/program/nodejs/"/>
+    
+    
+      <category term="nodejs" scheme="https://goldymark.github.io/tags/nodejs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>记一次跨域问题的解决方案</title>
+    <link href="https://goldymark.github.io/2016/04/05/%E8%AE%B0%E4%B8%80%E6%AC%A1%E8%B7%A8%E5%9F%9F%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>https://goldymark.github.io/2016/04/05/记一次跨域问题的解决方案/</id>
+    <published>2016-04-05T15:15:00.000Z</published>
+    <updated>2016-04-05T15:15:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>用<a href="http://cn.vuejs.org" target="_blank" rel="external">Vue.js</a>写了个页面，显示开发、测试环境下各项目正在运行的分支情况（相对QA较为有用）。</p>
+<p>原理：调用Jenkins提供的API，<br>限制：Jenkins的API只返回了最近100条记录，在没有数据库保存历史数据的情况下，并不能真正实现查看所有项目的当前运行分支情况（例如一些低频发布的应用就可能不在这100条记录里面），但对于发布频繁的测试环境来说，100条记录足够了；</p>
+<a id="more"></a>
+<p>代码本身没什么技术含量，但由于是一个纯前端页面，所以不可避免地遇到了跨域这个问题。</p>
+<p>看了一下解决跨域问题的文章，主流的解决方法基本基于<code>JSONP</code>和<code>CORS</code>，然而这两种方法都需要后端配合，<strong>not BIGGER</strong>；</p>
+<p>然后参考了一下<code>main-static</code>上的<code>nginx</code>配置，发现用的<code>CORS</code>方案，<strong>not BIGGER</strong>；</p>
+<p>然后突然想到我们用的是<code>nginx</code>反向代理，是否可以通过<code>nginx</code>来欺骗浏览器以为是同源访问呢？（灵感来自于文末的插件）</p>
+<p>往这方面搜了一下，果然有这方面的文章，而且综合对比了几种解决方案，这种方案是成本最低的，不涉及代码改造，只需要<code>nginx</code>配置一下即可；</p>
+<p>遂找运维说明了一下情况，然后运维以迅雷不及掩耳盗铃之势加上了以下的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">location /devjob/ &#123;</div><div class="line">    proxy_pass http://dev.jenkins.***.net/job/;</div><div class="line">&#125;</div><div class="line">location /testjob/ &#123;</div><div class="line">    proxy_pass http://test.jenkins.***.net/job/;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样，只要代码里的调用地址改为<em>…/devjob/</em>就能访问到对应域名了；</p>
+<p>感谢运维帮忙解决这个问题。</p>
+<p>另外安利一个chrome插件<a href="https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi" target="_blank" rel="external">Allow-Control-Allow-Origin: *</a>，可以在本地浏览器解决跨域问题，方便调试。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;用&lt;a href=&quot;http://cn.vuejs.org&quot;&gt;Vue.js&lt;/a&gt;写了个页面，显示开发、测试环境下各项目正在运行的分支情况（相对QA较为有用）。&lt;/p&gt;
+&lt;p&gt;原理：调用Jenkins提供的API，&lt;br&gt;限制：Jenkins的API只返回了最近100条记录，在没有数据库保存历史数据的情况下，并不能真正实现查看所有项目的当前运行分支情况（例如一些低频发布的应用就可能不在这100条记录里面），但对于发布频繁的测试环境来说，100条记录足够了；&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+      <category term="javascript" scheme="https://goldymark.github.io/categories/program/javascript/"/>
+    
+    
+      <category term="javascript" scheme="https://goldymark.github.io/tags/javascript/"/>
+    
+      <category term="跨域" scheme="https://goldymark.github.io/tags/%E8%B7%A8%E5%9F%9F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol26.富贵患难</title>
+    <link href="https://goldymark.github.io/2016/04/04/%E5%AF%8C%E8%B4%B5%E6%82%A3%E9%9A%BE/"/>
+    <id>https://goldymark.github.io/2016/04/04/富贵患难/</id>
+    <published>2016-04-04T13:25:00.000Z</published>
+    <updated>2016-04-04T13:25:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/04/04/富贵患难/IMG_1372.JPG" alt="IMG_1372.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/04/04/富贵患难/IMG_1372.JPG&quot; alt=&quot;IMG_1372.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用JRebel实现热部署</title>
+    <link href="https://goldymark.github.io/2016/03/18/%E4%BD%BF%E7%94%A8JRebel%E5%AE%9E%E7%8E%B0%E7%83%AD%E9%83%A8%E7%BD%B2/"/>
+    <id>https://goldymark.github.io/2016/03/18/使用JRebel实现热部署/</id>
+    <published>2016-03-18T01:48:00.000Z</published>
+    <updated>2016-03-18T01:48:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>情景：</p>
+<ol>
+<li>xx-biz里的XXServiceImpl有问题，改；</li>
+<li><code>mvn install</code>，等；</li>
+<li>重启应用，等；</li>
+<li>李大爷说还是有问题，再改，回到步骤1；</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<p>以上情景相信大家并不陌生。然后，不知道大家有没有统计过每天浪费在【编译】+【重启应用】的时间有多少呢？浪费时间的同时也十分影响工作情绪，也容易打断思路。</p>
+<p>为此，本人尝试用了一下<code>JRebel</code>，分享一下。</p>
+<ol>
+<li>安装JRebel插件（这里以Intelij IDEA为例）；<img src="/2016/03/18/使用JRebel实现热部署/p1.png" alt="p1.png" title=""></li>
+<li><a href="http://idea.lanyus.com/" target="_blank" rel="external">UNO</a>；</li>
+<li>打开左侧的JRebel标签，将需要热部署的Maven模块打勾（这里以supplier-web为例），然后IDE会自动在打勾模块下的<code>src/main/resources</code>下生成<code>rebel.xml</code>（<strong><em>建议在<code>.gitignore</code>文件中添加<code>rebel.xml</code>，防止提交到git仓库</em></strong>）；<img src="/2016/03/18/使用JRebel实现热部署/p2.png" alt="p2.png" title=""></li>
+<li>打开<code>supplier-web-publish</code>下的<code>pom.xml</code>，将<code>jetty</code>插件的<code>scanIntervalSeconds</code>的值设为<strong>0</strong>，关闭jetty的自动重启；<img src="/2016/03/18/使用JRebel实现热部署/p3.png" alt="p3.png" title=""></li>
+<li>点击右上角的<code>Debug with JRebel</code>，以debug模式启动项目；<img src="/2016/03/18/使用JRebel实现热部署/p4.png" alt="p4.png" title=""></li>
+<li>在项目运行的状态下，尝试修改Java代码，然后重新编译该文件（右键，Compile ‘…….java’）；</li>
+<li>如果控制台出现以下信息，表示JRebel已经能正常运作了；<img src="/2016/03/18/使用JRebel实现热部署/p5.png" alt="p5.png" title=""></li>
+<li>Fly me to the moon and let me play among the stars.</li>
+</ol>
+<blockquote>
+<p><strong>Save time, save life.</strong></p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;情景：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;xx-biz里的XXServiceImpl有问题，改；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mvn install&lt;/code&gt;，等；&lt;/li&gt;
+&lt;li&gt;重启应用，等；&lt;/li&gt;
+&lt;li&gt;李大爷说还是有问题，再改，回到步骤1；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+      <category term="java" scheme="https://goldymark.github.io/categories/program/java/"/>
+    
+    
+      <category term="java" scheme="https://goldymark.github.io/tags/java/"/>
+    
+      <category term="jrebel" scheme="https://goldymark.github.io/tags/jrebel/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol25.到此为止</title>
+    <link href="https://goldymark.github.io/2016/03/05/%E5%88%B0%E6%AD%A4%E4%B8%BA%E6%AD%A2/"/>
+    <id>https://goldymark.github.io/2016/03/05/到此为止/</id>
+    <published>2016-03-05T01:57:00.000Z</published>
+    <updated>2016-03-05T01:57:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/03/05/到此为止/IMG_1373.JPG" alt="IMG_1373.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/03/05/到此为止/IMG_1373.JPG&quot; alt=&quot;IMG_1373.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>罗生门</title>
+    <link href="https://goldymark.github.io/2016/03/03/%E7%BD%97%E7%94%9F%E9%97%A8/"/>
+    <id>https://goldymark.github.io/2016/03/03/罗生门/</id>
+    <published>2016-03-03T15:23:56.000Z</published>
+    <updated>2016-03-03T15:23:56.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center"><p>如果有这个Live版…… </p>
+</blockquote>
+<a id="more"></a>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="450" src="http://music.163.com/outchain/player?type=0&id=454567120&auto=0&height=430"></iframe>
+
+
+<p><strong>《罗生门》</strong><br><strong>作曲：</strong> 伍乐城<br><strong>作词：</strong> 黄伟文</p>
+<p><strong>Juno：</strong>若果你 未觉荒谬<br>被传闻谈论的疯子 挽着手</p>
+<p><strong>Kay：</strong>很感激 喜欢我十年 仍不休<br>近日旧同学 说我已<br>耿耿于你心 六百周<br>很可惜 这一世未能 长厮守<br>但事实 如若告诉你 或更内疚<br>我爱过 哈啰吉蒂吗 似乎没有<br>狄更斯 是 漫画吗<br>仍然少女 误会了吗<br>迷恋蔽眼 才给美化<br>但其实 真懂得我吗<br>那动人时光 不用常回看<br>能提取温暖 以后渡严寒<br>就关起那间房<br>最动人时光 未必地老天荒<br>难忘的 因你太念念 才难忘<br>容易抱住谁十年 最难是放</p>
+<p><strong>Kay：</strong>真心讲 想起那段情 仍不枉<br>若路上重遇 会笑笑问你近况<br>你每晚更新的脸书 却无谓看<br>离别了若想心安<br>先不要每夜重翻旧案<br>望着更好的地方<br>为下段爱恋吸收阳光<br>那动人时光 不用常回看<br>能提取温暖 以后渡严寒<br>就关起那间房<br>最动人时光 未必地老天荒<br>难忘的 因你太念念 才难忘<br>容易眼泪流十年<br>难在擦干</p>
+<p><strong>Juno：</strong>还在叹息 那爱恋<br>不到气绝 便已安葬<br><strong>Kay：</strong>怕挂念太猖狂 <strong>Juno：</strong>教两人 心里有道<br>不解的咒 没法释放</p>
+<p><strong>让我们打听对方今天过得一切平安</strong><br><strong>纵使相见已是路人茫茫 记忆中你仍像初恋好看</strong><br><strong>吻过二十年还未寒 离去六十年仍热烫</strong><br><strong>共你就似被旧情下了降 像下了降</strong><br><strong>每晚都想起对方</strong><br><strong>谁亦会讲 假使那样怀念 必会再次有迴光</strong><br><strong>其实只要 让我耿耿某人思忆早闪闪发光</strong></p>
+<p><strong>Juno&amp;Kay：</strong>个个也探问 爱恋不老的秘方<br><strong>Juno：</strong>唯独壮烈离座 <strong>Kay：</strong>难道抱着残像<br><strong>Juno&amp;Kay：</strong>可百世流芳<br>你未忘 我未忘<br><strong>Juno：</strong>犹胜伴在旁 <strong>Kay：</strong>情信亦泛黄</p>
+<p><strong>Karen：</strong>不心安 清早与夜来 亦望望<br>收不到信号 过两秒 又再看看<br><strong>Juno&amp;Karen：</strong>你说过 常联系对方<br><strong>Juno&amp;Karen：</strong>从前号码 <strong>Kay：</strong>那动人时光<br><strong>Juno&amp;Karen：</strong>等于老地方 <strong>Kay：</strong>不用常回看<br><strong>Juno&amp;Karen：</strong>不敢拆掉再装 <strong>Kay：</strong>能提取温暖 以后渡严寒<br>就关起那间房<br><strong>Juno&amp;Karen：</strong>犹如绝症 <strong>Kay：</strong>最动人时光<br><strong>Juno&amp;Karen：</strong>天天有预感 <strong>Kay：</strong>未必地老天荒<br><strong>Juno&amp;Karen：</strong>幸福即将再降 <strong>Kay：</strong>最缠绵 那黑影<br>即使 每夜游荡<br><strong>Kay：</strong>其实一早 已给安葬<br><strong>Juno&amp;Karen：</strong>情人若 你也未忘<br>约定谁 过十年<br>暗渡陈仓 <strong>Juno：</strong>再续夜航<br><strong>Kay&amp;Karen：</strong>别疯狂<br><strong>Juno：</strong>下个一月<br><strong>Juno&amp;Karen：</strong>愿如期团聚于 <strong>Kay：</strong>让前尘沉淀于</p>
+<p><strong>Juno：</strong>冰岛某地方<br><strong>Kay&amp;Karen：</strong>福岛某地方</p>
+<blockquote class="blockquote-center"><p>十年前我们一同亲手建立的，十年后亦只有我们两人才能把他彻底摧毁。<br>这两个人，一个叫麦浚龙，另一个叫黄伟文。<br>到了现刻为止，大家所听到的只是一个开端。<br>只能说，没至少一个十年，又谈何念念不忘。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;p&gt;如果有这个Live版…… &lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="music-drink" scheme="https://goldymark.github.io/categories/music-drink/"/>
+    
+    
+      <category term="music" scheme="https://goldymark.github.io/tags/music/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol24.过去</title>
+    <link href="https://goldymark.github.io/2016/03/03/%E8%BF%87%E5%8E%BB/"/>
+    <id>https://goldymark.github.io/2016/03/03/过去/</id>
+    <published>2016-03-02T16:16:00.000Z</published>
+    <updated>2016-03-02T16:16:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/03/03/过去/IMG_1374.JPG" alt="IMG_1374.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/03/03/过去/IMG_1374.JPG&quot; alt=&quot;IMG_1374.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol23.离开这个城市</title>
+    <link href="https://goldymark.github.io/2016/02/22/%E7%A6%BB%E5%BC%80%E8%BF%99%E4%B8%AA%E5%9F%8E%E5%B8%82/"/>
+    <id>https://goldymark.github.io/2016/02/22/离开这个城市/</id>
+    <published>2016-02-22T05:01:00.000Z</published>
+    <updated>2016-02-22T05:01:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/02/22/离开这个城市/IMG_1375.JPG" alt="IMG_1375.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/02/22/离开这个城市/IMG_1375.JPG&quot; alt=&quot;IMG_1375.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol22.执念</title>
+    <link href="https://goldymark.github.io/2016/01/18/%E6%89%A7%E5%BF%B5/"/>
+    <id>https://goldymark.github.io/2016/01/18/执念/</id>
+    <published>2016-01-18T04:57:00.000Z</published>
+    <updated>2016-01-18T04:57:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2016/01/18/执念/IMG_1376.JPG" alt="IMG_1376.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2016/01/18/执念/IMG_1376.JPG&quot; alt=&quot;IMG_1376.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol21.一点点希望</title>
+    <link href="https://goldymark.github.io/2015/12/25/%E4%B8%80%E7%82%B9%E7%82%B9%E5%B8%8C%E6%9C%9B/"/>
+    <id>https://goldymark.github.io/2015/12/25/一点点希望/</id>
+    <published>2015-12-24T16:48:00.000Z</published>
+    <updated>2015-12-24T16:48:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/12/25/一点点希望/IMG_1377.JPG" alt="IMG_1377.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/12/25/一点点希望/IMG_1377.JPG&quot; alt=&quot;IMG_1377.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol20.命运</title>
+    <link href="https://goldymark.github.io/2015/12/19/%E5%91%BD%E8%BF%90/"/>
+    <id>https://goldymark.github.io/2015/12/19/命运/</id>
+    <published>2015-12-19T14:48:00.000Z</published>
+    <updated>2015-12-19T14:48:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/12/19/命运/IMG_1378.JPG" alt="IMG_1378.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/12/19/命运/IMG_1378.JPG&quot; alt=&quot;IMG_1378.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol19.无题</title>
+    <link href="https://goldymark.github.io/2015/12/11/%E6%97%A0%E9%A2%98/"/>
+    <id>https://goldymark.github.io/2015/12/11/无题/</id>
+    <published>2015-12-11T15:17:00.000Z</published>
+    <updated>2015-12-11T15:17:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/12/11/无题/IMG_1379.JPG" alt="IMG_1379.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/12/11/无题/IMG_1379.JPG&quot; alt=&quot;IMG_1379.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol18.顺其自然</title>
+    <link href="https://goldymark.github.io/2015/12/06/%E9%A1%BA%E5%85%B6%E8%87%AA%E7%84%B6/"/>
+    <id>https://goldymark.github.io/2015/12/06/顺其自然/</id>
+    <published>2015-12-05T17:12:00.000Z</published>
+    <updated>2015-12-05T17:12:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/12/06/顺其自然/IMG_1380.JPG" alt="IMG_1380.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/12/06/顺其自然/IMG_1380.JPG&quot; alt=&quot;IMG_1380.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol17.从没有爱过</title>
+    <link href="https://goldymark.github.io/2015/11/11/%E4%BB%8E%E6%B2%A1%E6%9C%89%E7%88%B1%E8%BF%87/"/>
+    <id>https://goldymark.github.io/2015/11/11/从没有爱过/</id>
+    <published>2015-11-10T17:24:00.000Z</published>
+    <updated>2015-11-10T17:24:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/11/11/从没有爱过/IMG_1381.JPG" alt="IMG_1381.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/11/11/从没有爱过/IMG_1381.JPG&quot; alt=&quot;IMG_1381.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol16.善良比聪明更难</title>
+    <link href="https://goldymark.github.io/2015/10/18/%E5%96%84%E8%89%AF%E6%AF%94%E8%81%AA%E6%98%8E%E6%9B%B4%E9%9A%BE/"/>
+    <id>https://goldymark.github.io/2015/10/18/善良比聪明更难/</id>
+    <published>2015-10-18T12:45:00.000Z</published>
+    <updated>2015-10-18T12:45:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/10/18/善良比聪明更难/IMG_1382.JPG" alt="IMG_1382.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/10/18/善良比聪明更难/IMG_1382.JPG&quot; alt=&quot;IMG_1382.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Vol15.想念</title>
+    <link href="https://goldymark.github.io/2015/08/15/%E6%83%B3%E5%BF%B5/"/>
+    <id>https://goldymark.github.io/2015/08/15/想念/</id>
+    <published>2015-08-15T15:47:00.000Z</published>
+    <updated>2015-08-15T15:47:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/2015/08/15/想念/IMG_1383.JPG" alt="IMG_1383.JPG" title="">
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;img src=&quot;/2015/08/15/想念/IMG_1383.JPG&quot; alt=&quot;IMG_1383.JPG&quot; title=&quot;&quot;&gt;
+
+    
+    </summary>
+    
+      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
+    
+    
+      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
+    
+  </entry>
+  
+</feed>
