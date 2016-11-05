@@ -4,6 +4,13 @@
   
     
     <entry>
+      <title><![CDATA[后悔]]></title>
+      <url>https://goldymark.github.io/2016/11/04/%E5%90%8E%E6%82%94/</url>
+      <content type="text"><![CDATA[]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[如何通过ODBC连接transbase数据库]]></title>
       <url>https://goldymark.github.io/2016/10/20/%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87odbc%E8%BF%9E%E6%8E%A5transbase%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
       <content type="text"><![CDATA[最近在研究transbase数据库，发现transbase提供JDBC和ODBC两种连接驱动。前者比较简单就不叙述了，这里主要说一下如何通过ODBC驱动连接transbase数据库。 hint：关于在win7 32bit/64bit下如何打开ODBC配置，请自行搜索相关知识，本文不作介绍。 第一步：配置ODBC驱动按照以下配置修改注册表：1234567[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\&lt;DRIVERNAME&gt;]&quot;UsageCount&quot;=dword:00000001&quot;Driver&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbodbc32.dll&quot;&quot;Setup&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbsodb32.dll&quot;&quot;Configuration&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbwin.ini&quot;[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers] &quot;&lt;DRIVERNAME&quot;=&quot;Installed&quot; 注意： 把&lt;DRIVERNAME&gt;替换成单独的驱动名称（不与现有的重复即可），例如：transbase； 把&lt;INSTALLATIONPATH&gt;替换成transbase的安装目录； 第二步：配置DSN123456789[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]&quot;&lt;DSN&gt;&quot;=&quot;&lt;DRIVERNAME&gt;&quot;[HKEY_LOCAL_MACHINE\ SOFTW ARE\ODBC\ODBC.INI\&lt;DSN&gt;]&quot;Driver&quot;=&quot;&lt;INSTALLATIONPATH&gt;\\tbodbc32.dll&quot;&quot;Description&quot;=&quot;Electronic Part Catalogue B&amp;H&quot;&quot;Dbhost&quot;=&quot;&lt;SERVERNAME&gt;&quot;&quot;Dbname&quot;=&quot;&lt;DBNAME&gt;&quot;&quot;Option1&quot;=&quot;No&quot;&quot;Option2&quot;=&quot;No&quot; 注意： 把&lt;DRIVERNAME&gt;替换成第一步中的&lt;DRIVERNAME&gt;，例如：transbase； 把&lt;INSTALLATIONPATH&gt;替换成transbase的安装目录； 把&lt;DSN&gt;替换成单独的数据源名称（不与现有的重复即可），例如：EPC B&amp;H； 把&lt;SERVER&gt;替换成transbase数据库的host地址； 把&lt;DBNAME&gt;替换成transbase数据库名称； 接下来就可以按网上连接ODBC驱动的教程连接transbase数据库了。 Google搜索关键词transbase redistribution]]></content>
