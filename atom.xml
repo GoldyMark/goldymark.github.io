@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://goldymark.github.io/"/>
-  <updated>2016-11-04T14:37:33.000Z</updated>
+  <updated>2016-12-11T14:01:13.000Z</updated>
   <id>https://goldymark.github.io/</id>
   
   <author>
@@ -14,6 +14,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>旧瓶新思</title>
+    <link href="https://goldymark.github.io/2016/12/11/%E6%97%A7%E7%93%B6%E6%96%B0%E6%80%9D/"/>
+    <id>https://goldymark.github.io/2016/12/11/旧瓶新思/</id>
+    <published>2016-12-11T14:01:13.000Z</published>
+    <updated>2016-12-11T14:01:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="故事一"><a href="#故事一" class="headerlink" title="故事一"></a>故事一</h2><blockquote>
+<p>魏文王问名医扁鹊说∶“你们家兄弟三人，都精于医术，到底哪一位最厉害呢？”<br>扁鹊答说∶“长兄最好，中兄次之，我最差。”<br>文王又问∶“那么为什么你最出名呢？”<br>扁鹊答说∶“我长兄治病，是治病于病情发作之前。由于一般人不知道他是在事先就铲除了病因，所以他的名气无法传出去，只有我们家的人才知道。我中兄治病，是治病于病情初起之时。一般人以为他只能治轻微的小病，所以他的名气只及于本乡里。而我扁鹊治病，是治病于病情严重之时。一般人都看到我在经脉上穿针管来放血、在皮肤上敷药等大手术，所以以为我的医术高明，名气因此响遍全国。”</p>
+</blockquote>
+<p>回顾这些年的工作，似乎总在“解决”各种各样的问题，却很少去思考：<strong>解决这些问题真的有必要和价值吗？解决了之后呢？</strong></p>
+<p>我认为，一个人首先要有<strong>解决问题</strong>的能力。在这之上，每次遇到问题之前强迫自己去思考一下<strong>是否有避免问题的办法，并且是正方向、低成本、可实施的</strong>。久而久之，就会习惯以这种思维去思考问题。</p>
+<p><strong>个人见解</strong><br>避免可以避免的问题，解决不能避免的问题。</p>
+<p>献上一句我很欣赏的名言：</p>
+<blockquote>
+<p>Intellectuals solve problems, geniuses prevent them. –Albert Einstein</p>
+</blockquote>
+<h2 id="故事二"><a href="#故事二" class="headerlink" title="故事二"></a>故事二</h2><blockquote>
+<p>缅甸有这么一个传说：有一条恶龙，每年要求村庄献祭一个处女，每年这个村庄都会有一个少年英雄去与恶龙搏斗，但无人生还。又一个英雄出发时，有人悄悄尾随。龙穴铺满金银财宝，英雄用剑刺死恶龙，然后坐在尸身上，看着闪烁的珠宝，慢慢地长出鳞片、尾巴和触角，最终变成恶龙。</p>
+</blockquote>
+<p>之所以想起这个故事，缘于某天我无聊时翻看以前旧项目的代码（想当年还吐槽过这些代码如何如何烂。。PS:不是我写的），突然发现这些我现在写的这些东西竟与当年的那些烂代码有几分相像。然后重新code review了自己现在写的代码，有的的确很烂却不知道如何变得优雅（连<code>Intellij</code>都吐槽说<code>too complex</code>了……），有的可能设计得只有自己知道如何运行。</p>
+<p>在review的过程中，多多少少也能想明白以前旧项目那些烂代码所遭遇到的困境，也能体会到当时作者的心情——<strong>不是我不想优雅，奈何条件不允许（时间、成本、变数等）。</strong></p>
+<p>Anyway，我们还是应该以此为方向。</p>
+<blockquote>
+<p>以铜为镜可以正衣冠，以人为镜可以明得失，以史为镜可以知兴衰。</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;故事一&quot;&gt;&lt;a href=&quot;#故事一&quot; class=&quot;headerlink&quot; title=&quot;故事一&quot;&gt;&lt;/a&gt;故事一&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;魏文王问名医扁鹊说∶“你们家兄弟三人，都精于医术，到底哪一位最厉害呢？”&lt;br&gt;扁鹊答说∶“长兄最好，中兄
+    
+    </summary>
+    
+      <category term="program" scheme="https://goldymark.github.io/categories/program/"/>
+    
+    
+      <category term="program" scheme="https://goldymark.github.io/tags/program/"/>
+    
+  </entry>
   
   <entry>
     <title>Vol29.后悔</title>
@@ -566,30 +608,6 @@
     <summary type="html">
     
       &lt;img src=&quot;/2015/11/11/从没有爱过/IMG_1381.JPG&quot; alt=&quot;IMG_1381.JPG&quot; title=&quot;&quot;&gt;
-
-    
-    </summary>
-    
-      <category term="一言" scheme="https://goldymark.github.io/categories/%E4%B8%80%E8%A8%80/"/>
-    
-    
-      <category term="一言" scheme="https://goldymark.github.io/tags/%E4%B8%80%E8%A8%80/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Vol16.善良比聪明更难</title>
-    <link href="https://goldymark.github.io/2015/10/18/%E5%96%84%E8%89%AF%E6%AF%94%E8%81%AA%E6%98%8E%E6%9B%B4%E9%9A%BE/"/>
-    <id>https://goldymark.github.io/2015/10/18/善良比聪明更难/</id>
-    <published>2015-10-18T12:45:00.000Z</published>
-    <updated>2015-10-18T12:45:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<img src="/2015/10/18/善良比聪明更难/IMG_1382.JPG" alt="IMG_1382.JPG" title="">
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;img src=&quot;/2015/10/18/善良比聪明更难/IMG_1382.JPG&quot; alt=&quot;IMG_1382.JPG&quot; title=&quot;&quot;&gt;
 
     
     </summary>
