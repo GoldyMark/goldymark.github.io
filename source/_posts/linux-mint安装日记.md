@@ -7,7 +7,7 @@ tags:
   - Linux
   - mint
 categories:
-  - technology
+  - program
   - Linux
 ---
 

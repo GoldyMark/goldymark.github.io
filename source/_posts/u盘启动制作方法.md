@@ -6,7 +6,7 @@ updated: 2011-09-02 10:54:36
 tags:
   - U盘启动
 categories:
-  - technology
+  - program
 ---
 
 这篇文章不好迁移，直接贴地址了。

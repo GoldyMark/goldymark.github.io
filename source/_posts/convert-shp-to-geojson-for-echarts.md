@@ -9,8 +9,7 @@ tags:
   - shp
   - geojson
 categories:
-  - technology
-  - gis
+  - program
 ---
 
 最近在用`AngularJS`+`ECharts`做图表，要用到镇街一级的当地地图，无奈`ECharts`只能提供到市一级（demo里有一个能显示到县/区一级，[here](http://echarts.baidu.com/echarts2/doc/example/map20.html)），故要用到`ECharts`的扩展地图功能。
