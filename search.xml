@@ -4,6 +4,13 @@
   
     
     <entry>
+      <title><![CDATA[本周推荐阅读[第四期]]]></title>
+      <url>https://goldymark.github.io/2017/07/22/%E6%9C%AC%E5%91%A8%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB-%E7%AC%AC%E5%9B%9B%E6%9C%9F/</url>
+      <content type="text"><![CDATA[本周推荐阅读(第四期)推荐阅读可能是迄今为止最好的 GitHub 代码浏览插件MySQL事务隔离级别和Spring事务关系介绍公司数据库默认使用的是RR级别，结合Spring的事务管理器，我们可以很方便地在代码里进行事务控制，但前提是我们要清楚知道数据库不同级别的事务隔离行为和Spring的事务传播行为。（目前ERP项目里面有个TransactionService接口，里面有个default方法rollback()，供手动回滚使用，不过在调用dubbo服务的时候没用） Mybatis TypeHandler的简单应用及源码分析看完这篇文章之后，我结合之前写的MyBatisEnumHandler，尝试写了一个通用的Handler处理枚举类型字段，使数据库的tinyint字段无缝转换至Java Enum，更方便编码工作。该插件待测试。 本周在地铁上主要在看《目标》，没怎么花时间刷手机……]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[本周推荐阅读[第三期]]]></title>
       <url>https://goldymark.github.io/2017/07/15/%E6%9C%AC%E5%91%A8%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB-%E7%AC%AC%E4%B8%89%E6%9C%9F/</url>
       <content type="text"><![CDATA[本周推荐阅读(第三期)推荐阅读2017前端现状–答题救不了前端新人前后分离架构的探索之路以上两篇文章虽然是以前端工程师的口吻来叙述，但同时也是一个技术人的心路历程。 以下为摘抄的一段话： 我们不应该有前端后端之分，我们可以有专精之处，但是对于 web 开发这回事该懂的都应该要懂，否则你怎么可能打得赢？同理，如果说后端工程师需要靠写页面来了解前端的话，那么前端也应该有类似的方式来了解后端做的一些事情。 其他Poi读取Excel引发的内存溢出 这篇文章对比了Poi在用户模式和事件驱动模式下读取Excel占用内存的情况。 POI事件驱动读取Excel分析 对上一篇文章的Poi事件驱动模式进行分析。 webpack2 终极优化 投入低，产出高的优化。（本文说的是编译后结果的优化，然而顺便吐槽一下webpack编译速度令人忧伤） 移动端图片上传旋转、压缩的解决方案 先收藏，以后可以拿来就用。 IntelliJ IDEA 2017.1 JDK 8 性能调优 给MacBook Pro的后端同学看的，MacBook Air实测表示无力，毕竟系统启动后就吃掉3G+内存了（Air只有4G内存）。 思路清奇：通过 JavaScript 获取移动设备的型号 前端监控可以用到这个技巧，获取用户设备类型对解决问题有很大的帮助。]]></content>
