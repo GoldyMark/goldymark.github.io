@@ -1,0 +1,882 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,spring,动态多数据源," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="GoldyMark" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近在做SaaS应用，数据库采用了单实例多schema的架构（详见参考资料1），每个租户有一个独立的schema，同时整个数据源有一个共享的schema，因此需要解决动态增删、切换数据源的问题。
+在网上搜了很多文章后，很多都是讲主从数据源配置，或都是在应用启动前已经确定好数据源配置的，甚少讲在不停机的情况如何动态加载数据源，所以写下这篇文章，以供参考。
+使用到的技术
+Java8
+Spring +">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现Spring动态注册多数据源">
+<meta property="og:url" content="https://goldymark.github.io/2018/01/17/实现spring动态注册多数据源/index.html">
+<meta property="og:site_name" content="GoldyMark">
+<meta property="og:description" content="最近在做SaaS应用，数据库采用了单实例多schema的架构（详见参考资料1），每个租户有一个独立的schema，同时整个数据源有一个共享的schema，因此需要解决动态增删、切换数据源的问题。
+在网上搜了很多文章后，很多都是讲主从数据源配置，或都是在应用启动前已经确定好数据源配置的，甚少讲在不停机的情况如何动态加载数据源，所以写下这篇文章，以供参考。
+使用到的技术
+Java8
+Spring +">
+<meta property="og:updated_time" content="2018-01-16T16:04:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现Spring动态注册多数据源">
+<meta name="twitter:description" content="最近在做SaaS应用，数据库采用了单实例多schema的架构（详见参考资料1），每个租户有一个独立的schema，同时整个数据源有一个共享的schema，因此需要解决动态增删、切换数据源的问题。
+在网上搜了很多文章后，很多都是讲主从数据源配置，或都是在应用启动前已经确定好数据源配置的，甚少讲在不停机的情况如何动态加载数据源，所以写下这篇文章，以供参考。
+使用到的技术
+Java8
+Spring +">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6343935897028789000,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://goldymark.github.io/2018/01/17/实现spring动态注册多数据源/"/>
+
+  <title> 实现Spring动态注册多数据源 | GoldyMark </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">GoldyMark</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人的一生/可以活出不止一生</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-program">
+          <a href="/categories/program/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-coffee"></i> <br />
+            
+            Program
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music-drink">
+          <a href="/categories/music-drink/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br />
+            
+            Music&Drink
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-yiyan">
+          <a href="/categories/一言/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br />
+            
+            一言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                实现Spring动态注册多数据源
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2018-01-17T00:04:29+08:00" content="2018-01-17">
+              2018-01-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/" itemprop="url" rel="index">
+                    <span itemprop="name">program</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/program/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/01/17/实现spring动态注册多数据源/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/01/17/实现spring动态注册多数据源/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在做SaaS应用，数据库采用了单实例多schema的架构（详见参考资料1），每个租户有一个独立的schema，同时整个数据源有一个共享的schema，因此需要解决动态增删、切换数据源的问题。</p>
+<p>在网上搜了很多文章后，很多都是讲主从数据源配置，或都是在应用启动前已经确定好数据源配置的，甚少讲在不停机的情况如何动态加载数据源，所以写下这篇文章，以供参考。</p>
+<h2 id="使用到的技术"><a href="#使用到的技术" class="headerlink" title="使用到的技术"></a>使用到的技术</h2><ul>
+<li>Java8</li>
+<li>Spring + SpringMVC + MyBatis</li>
+<li>Druid连接池</li>
+<li>Lombok</li>
+<li>（以上技术并不影响思路实现，只是为了方便浏览以下代码片段）</li>
+</ul>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>当一个请求进来的时候，判断当前用户所属租户，并根据租户信息切换至相应数据源，然后进行后续的业务操作。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h2 id="TenantConfigEntity（租户信息）"><a href="#TenantConfigEntity（租户信息）" class="headerlink" title="TenantConfigEntity（租户信息）"></a>TenantConfigEntity（租户信息）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@EqualsAndHashCode</span>(callSuper = <span class="keyword">false</span>)</div><div class="line"><span class="meta">@Data</span></div><div class="line"><span class="meta">@FieldDefaults</span>(level = AccessLevel.PRIVATE)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TenantConfigEntity</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 租户id</div><div class="line">     **/</div><div class="line">    Integer tenantId;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 租户名称</div><div class="line">     **/</div><div class="line">    String tenantName;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 租户名称key</div><div class="line">     **/</div><div class="line">    String tenantKey;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 数据库url</div><div class="line">     **/</div><div class="line">    String dbUrl;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 数据库用户名</div><div class="line">     **/</div><div class="line">    String dbUser;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 数据库密码</div><div class="line">     **/</div><div class="line">    String dbPassword;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 数据库public_key</div><div class="line">     **/</div><div class="line">    String dbPublicKey;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="DataSourceUtil（辅助工具类，非必要）"><a href="#DataSourceUtil（辅助工具类，非必要）" class="headerlink" title="DataSourceUtil（辅助工具类，非必要）"></a>DataSourceUtil（辅助工具类，非必要）</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceUtil</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DATA_SOURCE_BEAN_KEY_SUFFIX = <span class="string">"_data_source"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String JDBC_URL_ARGS = <span class="string">"?useUnicode=true&amp;characterEncoding=UTF-8&amp;useOldAliasMetadataBehavior=true&amp;zeroDateTimeBehavior=convertToNull"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CONNECTION_PROPERTIES = <span class="string">"config.decrypt=true;config.decrypt.key="</span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 拼接数据源的spring bean key</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDataSourceBeanKey</span><span class="params">(String tenantKey)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(tenantKey)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> tenantKey + DATA_SOURCE_BEAN_KEY_SUFFIX;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 拼接完整的JDBC URL</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getJDBCUrl</span><span class="params">(String baseUrl)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(baseUrl)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> baseUrl + JDBC_URL_ARGS;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 拼接完整的Druid连接属性</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getConnectionProperties</span><span class="params">(String publicKey)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(publicKey)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> CONNECTION_PROPERTIES + publicKey;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DataSourceContextHolder"><a href="#DataSourceContextHolder" class="headerlink" title="DataSourceContextHolder"></a>DataSourceContextHolder</h3><p>使用<strong>ThreadLocal</strong>保存当前线程的数据源key name，并实现set、get、clear方法；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceContextHolder</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal&lt;String&gt; dataSourceKey = <span class="keyword">new</span> InheritableThreadLocal&lt;&gt;();</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setDataSourceKey</span><span class="params">(String tenantKey)</span> </span>&#123;</div><div class="line">        dataSourceKey.set(tenantKey);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getDataSourceKey</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> dataSourceKey.get();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">clearDataSourceKey</span><span class="params">()</span> </span>&#123;</div><div class="line">        dataSourceKey.remove();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="DynamicDataSource（重点）"><a href="#DynamicDataSource（重点）" class="headerlink" title="DynamicDataSource（重点）"></a>DynamicDataSource（重点）</h3><p>继承<strong>AbstractRoutingDataSource</strong>（建议阅读其源码，了解动态切换数据源的过程），实现动态选择数据源；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSource</span> <span class="keyword">extends</span> <span class="title">AbstractRoutingDataSource</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> ApplicationContext applicationContext;</div><div class="line"></div><div class="line">    <span class="meta">@Lazy</span></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> DynamicDataSourceSummoner summoner;</div><div class="line"></div><div class="line">    <span class="meta">@Lazy</span></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> TenantConfigDAO tenantConfigDAO;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> String <span class="title">determineCurrentLookupKey</span><span class="params">()</span> </span>&#123;</div><div class="line">        String tenantKey = DataSourceContextHolder.getDataSourceKey();</div><div class="line">        <span class="keyword">return</span> DataSourceUtil.getDataSourceBeanKey(tenantKey);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> DataSource <span class="title">determineTargetDataSource</span><span class="params">()</span> </span>&#123;</div><div class="line">        String tenantKey = DataSourceContextHolder.getDataSourceKey();</div><div class="line">        String beanKey = DataSourceUtil.getDataSourceBeanKey(tenantKey);</div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(tenantKey) || applicationContext.containsBean(beanKey)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.determineTargetDataSource();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (tenantConfigDAO.exist(tenantKey)) &#123;</div><div class="line">            summoner.registerDynamicDataSources();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.determineTargetDataSource();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="DynamicDataSourceSummoner（重点中的重点）"><a href="#DynamicDataSourceSummoner（重点中的重点）" class="headerlink" title="DynamicDataSourceSummoner（重点中的重点）"></a>DynamicDataSourceSummoner（重点中的重点）</h2><p>从数据库加载数据源信息，并动态组装和注册spring bean，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Slf</span>4j</div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSourceSummoner</span> <span class="keyword">implements</span> <span class="title">ApplicationListener</span>&lt;<span class="title">ContextRefreshedEvent</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 跟spring-data-source.xml的默认数据源id保持一致</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_DATA_SOURCE_BEAN_KEY = <span class="string">"defaultDataSource"</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> ConfigurableApplicationContext applicationContext;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> DynamicDataSource dynamicDataSource;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> TenantConfigDAO tenantConfigDAO;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">boolean</span> loaded = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Spring加载完成后执行</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onApplicationEvent</span><span class="params">(ContextRefreshedEvent event)</span> </span>&#123;</div><div class="line">        <span class="comment">// 防止重复执行</span></div><div class="line">        <span class="keyword">if</span> (!loaded) &#123;</div><div class="line">            loaded = <span class="keyword">true</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                registerDynamicDataSources();</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                log.error(<span class="string">"数据源初始化失败, Exception:"</span>, e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 从数据库读取租户的DB配置,并动态注入Spring容器</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerDynamicDataSources</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// 获取所有租户的DB配置</span></div><div class="line">        List&lt;TenantConfigEntity&gt; tenantConfigEntities = tenantConfigDAO.listAll();</div><div class="line">        <span class="keyword">if</span> (CollectionUtils.isEmpty(tenantConfigEntities)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"应用程序初始化失败,请先配置数据源"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 把数据源bean注册到容器中</span></div><div class="line">        addDataSourceBeans(tenantConfigEntities);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据DataSource创建bean并注册到容器中</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addDataSourceBeans</span><span class="params">(List&lt;TenantConfigEntity&gt; tenantConfigEntities)</span> </span>&#123;</div><div class="line">        Map&lt;Object, Object&gt; targetDataSources = Maps.newLinkedHashMap();</div><div class="line">        DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();</div><div class="line">        <span class="keyword">for</span> (TenantConfigEntity entity : tenantConfigEntities) &#123;</div><div class="line">            String beanKey = DataSourceUtil.getDataSourceBeanKey(entity.getTenantKey());</div><div class="line">            <span class="comment">// 如果该数据源已经在spring里面注册过,则不重新注册</span></div><div class="line">            <span class="keyword">if</span> (applicationContext.containsBean(beanKey)) &#123;</div><div class="line">                DruidDataSource existsDataSource = applicationContext.getBean(beanKey, DruidDataSource.class);</div><div class="line">                <span class="keyword">if</span> (isSameDataSource(existsDataSource, entity)) &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//  组装bean</span></div><div class="line">            AbstractBeanDefinition beanDefinition = getBeanDefinition(entity, beanKey);</div><div class="line">            <span class="comment">//  注册bean</span></div><div class="line">            beanFactory.registerBeanDefinition(beanKey, beanDefinition);</div><div class="line">            <span class="comment">//  放入map中，注意一定是刚才创建bean对象</span></div><div class="line">            targetDataSources.put(beanKey, applicationContext.getBean(beanKey));</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//  将创建的map对象set到 targetDataSources；</span></div><div class="line">        dynamicDataSource.setTargetDataSources(targetDataSources);</div><div class="line">        <span class="comment">//  必须执行此操作，才会重新初始化AbstractRoutingDataSource 中的 resolvedDataSources，也只有这样，动态切换才会起效</span></div><div class="line">        dynamicDataSource.afterPropertiesSet();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 组装数据源spring bean</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> AbstractBeanDefinition <span class="title">getBeanDefinition</span><span class="params">(TenantConfigEntity entity, String beanKey)</span> </span>&#123;</div><div class="line">        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(DruidDataSource.class);</div><div class="line">        builder.getBeanDefinition().setAttribute(<span class="string">"id"</span>, beanKey);</div><div class="line">        <span class="comment">// 其他配置继承defaultDataSource</span></div><div class="line">        builder.setParentName(DEFAULT_DATA_SOURCE_BEAN_KEY);</div><div class="line">        builder.setInitMethodName(<span class="string">"init"</span>);</div><div class="line">        builder.setDestroyMethodName(<span class="string">"close"</span>);</div><div class="line">        builder.addPropertyValue(<span class="string">"name"</span>, beanKey);</div><div class="line">        builder.addPropertyValue(<span class="string">"url"</span>, DataSourceUtil.getJDBCUrl(entity.getDbUrl()));</div><div class="line">        builder.addPropertyValue(<span class="string">"username"</span>, entity.getDbUser());</div><div class="line">        builder.addPropertyValue(<span class="string">"password"</span>, entity.getDbPassword());</div><div class="line">        builder.addPropertyValue(<span class="string">"connectionProperties"</span>, DataSourceUtil.getConnectionProperties(entity.getDbPublicKey()));</div><div class="line">        <span class="keyword">return</span> builder.getBeanDefinition();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 判断Spring容器里面的DataSource与数据库的DataSource信息是否一致</div><div class="line">     * 备注:这里没有判断public_key,因为另外三个信息基本可以确定唯一了</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isSameDataSource</span><span class="params">(DruidDataSource existsDataSource, TenantConfigEntity entity)</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span> sameUrl = Objects.equals(existsDataSource.getUrl(), DataSourceUtil.getJDBCUrl(entity.getDbUrl()));</div><div class="line">        <span class="keyword">if</span> (!sameUrl) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">boolean</span> sameUser = Objects.equals(existsDataSource.getUsername(), entity.getDbUser());</div><div class="line">        <span class="keyword">if</span> (!sameUser) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String decryptPassword = ConfigTools.decrypt(entity.getDbPublicKey(), entity.getDbPassword());</div><div class="line">            <span class="keyword">return</span> Objects.equals(existsDataSource.getPassword(), decryptPassword);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            log.error(<span class="string">"数据源密码校验失败,Exception:&#123;&#125;"</span>, e);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="spring-data-source-xml"><a href="#spring-data-source-xml" class="headerlink" title="spring-data-source.xml"></a>spring-data-source.xml</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 引入jdbc配置文件 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:data.properties"</span> <span class="attr">ignore-unresolvable</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 公共(默认)数据源 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"defaultDataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span></span></div><div class="line">      <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;</div><div class="line">    <span class="comment">&lt;!-- 基本属性 url、user、password --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;ds.jdbcUrl&#125;"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;ds.user&#125;"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;ds.password&#125;"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置初始化大小、最小、最大 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"5"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"2"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"10"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置获取连接等待超时的时间，单位是毫秒 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"1000"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"5000"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"240000"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"SELECT 1"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!--单位：秒，检测连接是否有效的超时时间--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQueryTimeout"</span> <span class="attr">value</span>=<span class="string">"60"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!--建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!--申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!--归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--Config Filter--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"config"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionProperties"</span> <span class="attr">value</span>=<span class="string">"config.decrypt=true;config.decrypt.key=$&#123;ds.publickey&#125;"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 事务管理器 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"txManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"multipleDataSource"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--多数据源--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"multipleDataSource"</span> <span class="attr">class</span>=<span class="string">"a.b.c.DynamicDataSource"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultTargetDataSource"</span> <span class="attr">ref</span>=<span class="string">"defaultDataSource"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetDataSources"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">map</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"defaultDataSource"</span> <span class="attr">value-ref</span>=<span class="string">"defaultDataSource"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">map</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 注解事务管理器 --&gt;</span></div><div class="line"><span class="comment">&lt;!--这里的order值必须大于DynamicDataSourceAspectAdvice的order值--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"txManager"</span> <span class="attr">order</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 创建SqlSessionFactory，同时指定数据源 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"mainSqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"multipleDataSource"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- DAO接口所在包名，Spring会自动查找其下的DAO --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"mainSqlMapper"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"mainSqlSessionFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"a.b.c.*.dao"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"defaultSqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"defaultDataSource"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"defaultSqlMapper"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"defaultSqlSessionFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"a.b.c.base.dal.dao"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- 其他配置省略 --&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="DynamicDataSourceAspectAdvice"><a href="#DynamicDataSourceAspectAdvice" class="headerlink" title="DynamicDataSourceAspectAdvice"></a>DynamicDataSourceAspectAdvice</h2><p>利用AOP自动切换数据源，仅供参考；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Slf</span>4j</div><div class="line"><span class="meta">@Aspect</span></div><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="meta">@Order</span>(<span class="number">1</span>) <span class="comment">// 请注意：这里order一定要小于tx:annotation-driven的order，即先执行DynamicDataSourceAspectAdvice切面，再执行事务切面，才能获取到最终的数据源</span></div><div class="line"><span class="meta">@EnableAspectJAutoProxy</span>(proxyTargetClass = <span class="keyword">true</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicDataSourceAspectAdvice</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Around</span>(<span class="string">"execution(* a.b.c.*.controller.*.*(..))"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">doAround</span><span class="params">(ProceedingJoinPoint jp)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        ServletRequestAttributes sra = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</div><div class="line">        HttpServletRequest request = sra.getRequest();</div><div class="line">        HttpServletResponse response = sra.getResponse();</div><div class="line">        String tenantKey = request.getHeader(<span class="string">"tenant"</span>);</div><div class="line">        <span class="comment">// 前端必须传入tenant header, 否则返回400</span></div><div class="line">        <span class="keyword">if</span> (!StringUtils.hasText(tenantKey)) &#123;</div><div class="line">            WebUtils.toHttp(response).sendError(HttpServletResponse.SC_BAD_REQUEST);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        log.info(<span class="string">"当前租户key:&#123;&#125;"</span>, tenantKey);</div><div class="line">        DataSourceContextHolder.setDataSourceKey(tenantKey);</div><div class="line">        Object result = jp.proceed();</div><div class="line">        DataSourceContextHolder.clearDataSourceKey();</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>另外，部分信息（例如：租户配置、省市县等共用信息）是存放在公共schema里面的，也就是说一个请求里面有可能包括查询<strong>当前租户数据源</strong>和<strong>公共数据源</strong>，建议为公共数据源单独创建一个<code>sqlSessionFactory</code>和<code>sqlMapper</code>（分别对应xml配置里的<code>defaultSqlSessionFactory</code>和<code>defaultSqlMapper</code>），或干脆把<strong>公共数据源</strong>的数据单独做成一个微服务，以后水平扩展也方便。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="http://blog.csdn.net/yown/article/details/51288549" target="_blank" rel="external">SaaS多租户数据隔离的三种方案</a></li>
+<li><a href="https://www.jianshu.com/p/fddcc1a6b2d8" target="_blank" rel="external">Spring MVC+Mybatis 多数据源配置</a></li>
+<li><a href="http://blog.csdn.net/getdate/article/details/20057877" target="_blank" rel="external">spring 动态创建bean</a></li>
+<li><a href="http://blog.csdn.net/xwq911/article/details/49147927" target="_blank" rel="external">Saas Spring动态加载、编辑数据源</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/spring/" rel="tag">#spring</a>
+          
+            <a href="/tags/动态多数据源/" rel="tag">#动态多数据源</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/22/本周推荐阅读-第四期/" rel="next" title="本周推荐阅读[第四期]">
+                <i class="fa fa-chevron-left"></i> 本周推荐阅读[第四期]
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2018/01/17/实现spring动态注册多数据源/"
+     data-title="实现Spring动态注册多数据源"
+     data-content=""
+     data-url="https://goldymark.github.io/2018/01/17/实现spring动态注册多数据源/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2018/01/17/实现spring动态注册多数据源/"
+           data-title="实现Spring动态注册多数据源" data-url="https://goldymark.github.io/2018/01/17/实现spring动态注册多数据源/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="GoldyMark" />
+          <p class="site-author-name" itemprop="name">GoldyMark</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives/">
+              <span class="site-state-item-count">54</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/GoldyMark" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用到的技术"><span class="nav-number">1.</span> <span class="nav-text">使用到的技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TenantConfigEntity（租户信息）"><span class="nav-number">4.</span> <span class="nav-text">TenantConfigEntity（租户信息）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DataSourceUtil（辅助工具类，非必要）"><span class="nav-number">5.</span> <span class="nav-text">DataSourceUtil（辅助工具类，非必要）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataSourceContextHolder"><span class="nav-number">5.1.</span> <span class="nav-text">DataSourceContextHolder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DynamicDataSource（重点）"><span class="nav-number">5.2.</span> <span class="nav-text">DynamicDataSource（重点）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DynamicDataSourceSummoner（重点中的重点）"><span class="nav-number">6.</span> <span class="nav-text">DynamicDataSourceSummoner（重点中的重点）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-data-source-xml"><span class="nav-number">7.</span> <span class="nav-text">spring-data-source.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DynamicDataSourceAspectAdvice"><span class="nav-number">8.</span> <span class="nav-text">DynamicDataSourceAspectAdvice</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">10.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GoldyMark</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"goldymark"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
